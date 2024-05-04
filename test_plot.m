@@ -6,6 +6,7 @@ f3D = figure;
 
 Folder = 'TrackData_LKP/Results/';
 Folder = 'TrackData_Sochi/Results/';
+Folder = 'Straight/Results/'
 
 % Plot Track Spine
 track = load([Folder 'track_test_pts.txt']);
@@ -48,7 +49,7 @@ plot_surface = 1;
 if (plot_surface)
     track_surface = importdata([Folder 'track_surface_pts.txt'],' ',1);
     [nUV] = sscanf(track_surface.textdata{1},'%d %d');
-    track_grid = reshape(track_surface.data,nUV(2),nUV(1),3)
+    track_grid = reshape(track_surface.data,nUV(2),nUV(1),3);
     figure(f3D)
     surf(track_grid(:,:,1),track_grid(:,:,2),track_grid(:,:,3));
 end

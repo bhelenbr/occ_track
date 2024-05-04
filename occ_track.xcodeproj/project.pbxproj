@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E636B9E02BE6FE7E002C1F22 /* makeSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E636B9DE2BE6FE7E002C1F22 /* makeSurface.cpp */; };
+		E636B9E22BE6FF99002C1F22 /* makeProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E636B9E12BE6FF99002C1F22 /* makeProfile.cpp */; };
 		E6B3E4832BD9F3100060A707 /* track_maker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6B3E4812BD9F3100060A707 /* track_maker.cpp */; };
 		E6B3E4842BD9F3100060A707 /* timeDeriv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6B3E4822BD9F3100060A707 /* timeDeriv.cpp */; };
 		E6B3E4C42BD9F5810060A707 /* libTKQADraw.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4862BD9F5800060A707 /* libTKQADraw.7.7.2.dylib */; };
@@ -87,6 +89,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E636B9DE2BE6FE7E002C1F22 /* makeSurface.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = makeSurface.cpp; sourceTree = "<group>"; };
+		E636B9E12BE6FF99002C1F22 /* makeProfile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = makeProfile.cpp; sourceTree = "<group>"; };
 		E6B3E4762BD9F2DB0060A707 /* occ_track */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = occ_track; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6B3E4802BD9F3100060A707 /* occ_track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = occ_track.h; sourceTree = "<group>"; };
 		E6B3E4812BD9F3100060A707 /* track_maker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = track_maker.cpp; sourceTree = "<group>"; };
@@ -249,10 +253,12 @@
 		E6B3E4782BD9F2DB0060A707 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				E6B3E4822BD9F3100060A707 /* timeDeriv.cpp */,
 				E6B3E4802BD9F3100060A707 /* occ_track.h */,
-				E6B3E4812BD9F3100060A707 /* track_maker.cpp */,
 				E6F841792BDB3B3500EF1A7E /* main.cpp */,
+				E6B3E4812BD9F3100060A707 /* track_maker.cpp */,
+				E636B9DE2BE6FE7E002C1F22 /* makeSurface.cpp */,
+				E636B9E12BE6FF99002C1F22 /* makeProfile.cpp */,
+				E6B3E4822BD9F3100060A707 /* timeDeriv.cpp */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -386,6 +392,8 @@
 				E6B3E4832BD9F3100060A707 /* track_maker.cpp in Sources */,
 				E6B3E4842BD9F3100060A707 /* timeDeriv.cpp in Sources */,
 				E6F8417B2BDB3B3500EF1A7E /* main.cpp in Sources */,
+				E636B9E02BE6FE7E002C1F22 /* makeSurface.cpp in Sources */,
+				E636B9E22BE6FF99002C1F22 /* makeProfile.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
