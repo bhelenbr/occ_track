@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		E636B9E02BE6FE7E002C1F22 /* makeSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E636B9DE2BE6FE7E002C1F22 /* makeSurface.cpp */; };
 		E636B9E22BE6FF99002C1F22 /* makeProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E636B9E12BE6FF99002C1F22 /* makeProfile.cpp */; };
-		E6B3E4832BD9F3100060A707 /* track_maker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6B3E4812BD9F3100060A707 /* track_maker.cpp */; };
+		E6B3E4832BD9F3100060A707 /* makeSpine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6B3E4812BD9F3100060A707 /* makeSpine.cpp */; };
 		E6B3E4842BD9F3100060A707 /* timeDeriv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6B3E4822BD9F3100060A707 /* timeDeriv.cpp */; };
 		E6B3E4C42BD9F5810060A707 /* libTKQADraw.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4862BD9F5800060A707 /* libTKQADraw.7.7.2.dylib */; };
 		E6B3E4C52BD9F5810060A707 /* libTKBinL.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4872BD9F5800060A707 /* libTKBinL.7.7.2.dylib */; };
@@ -93,7 +93,7 @@
 		E636B9E12BE6FF99002C1F22 /* makeProfile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = makeProfile.cpp; sourceTree = "<group>"; };
 		E6B3E4762BD9F2DB0060A707 /* occ_track */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = occ_track; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6B3E4802BD9F3100060A707 /* occ_track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = occ_track.h; sourceTree = "<group>"; };
-		E6B3E4812BD9F3100060A707 /* track_maker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = track_maker.cpp; sourceTree = "<group>"; };
+		E6B3E4812BD9F3100060A707 /* makeSpine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = makeSpine.cpp; sourceTree = "<group>"; };
 		E6B3E4822BD9F3100060A707 /* timeDeriv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timeDeriv.cpp; sourceTree = "<group>"; };
 		E6B3E4862BD9F5800060A707 /* libTKQADraw.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKQADraw.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKQADraw.7.7.2.dylib; sourceTree = "<group>"; };
 		E6B3E4872BD9F5800060A707 /* libTKBinL.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKBinL.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKBinL.7.7.2.dylib; sourceTree = "<group>"; };
@@ -255,7 +255,7 @@
 			children = (
 				E6B3E4802BD9F3100060A707 /* occ_track.h */,
 				E6F841792BDB3B3500EF1A7E /* main.cpp */,
-				E6B3E4812BD9F3100060A707 /* track_maker.cpp */,
+				E6B3E4812BD9F3100060A707 /* makeSpine.cpp */,
 				E636B9DE2BE6FE7E002C1F22 /* makeSurface.cpp */,
 				E636B9E12BE6FF99002C1F22 /* makeProfile.cpp */,
 				E6B3E4822BD9F3100060A707 /* timeDeriv.cpp */,
@@ -389,7 +389,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6B3E4832BD9F3100060A707 /* track_maker.cpp in Sources */,
+				E6B3E4832BD9F3100060A707 /* makeSpine.cpp in Sources */,
 				E6B3E4842BD9F3100060A707 /* timeDeriv.cpp in Sources */,
 				E6F8417B2BDB3B3500EF1A7E /* main.cpp in Sources */,
 				E636B9E02BE6FE7E002C1F22 /* makeSurface.cpp in Sources */,
