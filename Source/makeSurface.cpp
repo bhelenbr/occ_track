@@ -83,31 +83,39 @@ void makeTrackLoft(std::string const sourceFolder, std::string const destination
     for(int row = 0; row < nProfiles; ++ row) {
         BRep_Builder aBuilder;
         TopoDS_Shape aShape;
-        Standard_Boolean result = BRepTools::Read(aShape,(sourceFolder +"/" +profiles[row].filename).c_str(),aBuilder);
-        if (!result) {
+        std::ifstream fs;
+        fs.open(sourceFolder +"/" +profiles[row].filename);
+        if ( (fs.rdstate() & std::ifstream::failbit ) != 0 ) {
             std::cout << row << std::endl;
             std::cout << "Trouble reading " << sourceFolder +"/" +profiles[row].filename << std::endl;
             exit(1);
         }
+        BRepTools::Read(aShape,fs,aBuilder);
+
         /* Just exploring this surface a bit */
         TopExp_Explorer aWireExplorer(aShape, TopAbs_WIRE);
         TopoDS_Wire aWire = TopoDS::Wire(aWireExplorer.Current());
         
+        BRepTools::Read(aShape,fs,aBuilder);
         TopExp_Explorer aVertexExplorer(aShape, TopAbs_VERTEX);
         TopoDS_Vertex aVertex = TopoDS::Vertex(aVertexExplorer.Current());
-        gp_Pnt origin = BRep_Tool::Pnt(aVertex);
+        gp_Pnt CE = BRep_Tool::Pnt(aVertex);
+        gp_Pnt origin(0.,0.,0.);
         
         /* Find transformation from profile section to position on track */
         double sx = profiles[row].sx;
         gp_Pnt loc;
         gp_Vec dir;
         C->D1(sx, loc, dir);
-        
+#ifdef TEST_PROFILES
+        loc = gp_Pnt(0.0,sx,0.0);
+#endif
         gp_Trsf trackScale;
-        trackScale.SetScale(origin, 0.001);  // Convert to meters
+        trackScale.SetScale(origin,0.001);  // Convert to meters
         
+        CE.Scale(origin,0.001);
         gp_Trsf profileTrans;
-        profileTrans.SetTranslation(origin, loc);
+        profileTrans.SetTranslation(CE, loc);
         
         gp_Trsf profileRot;
         gp_Dir xAxis(1.0,0.0,0.0);
@@ -120,10 +128,15 @@ void makeTrackLoft(std::string const sourceFolder, std::string const destination
         gp_Ax1 rotAz(origin, zAxis);
         trackRot.SetRotation(rotAz, angle);
 
+#ifdef TEST_PROFILES
+        gp_Trsf Total = profileTrans*profileRot*trackScale;
+#else
         gp_Trsf Total = profileTrans*trackRot*profileRot*trackScale;
+#endif
         BRepBuilderAPI_Transform myTransform(aWire,Total);
         TopoDS_Wire newWire = TopoDS::Wire(myTransform.ModifiedShape(aWire));
-
+        BRepTools::Write(newWire,(destinationFolder +"/" +profiles[row].filename).c_str());
+        
         trackLoft.AddWire(newWire);
     }
     TopoDS_Shape track = trackLoft.Shape();
