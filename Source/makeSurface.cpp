@@ -83,7 +83,7 @@ void makeTrackLoft(std::string const sourceFolder, std::string const destination
     int BRKcount = 0;
     int row = 0;
     while (row < nProfiles) {
-        BRepOffsetAPI_ThruSections trackLoft;
+        BRepOffsetAPI_ThruSections trackLoft(false,true);
         do {
             BRep_Builder aBuilder;
             TopoDS_Shape aShape;
@@ -100,8 +100,7 @@ void makeTrackLoft(std::string const sourceFolder, std::string const destination
             TopExp_Explorer aWireExplorer(aShape, TopAbs_WIRE);
             TopoDS_Wire aWire = TopoDS::Wire(aWireExplorer.Current());
             
-            BRepTools::Read(aShape,fs,aBuilder);
-            TopExp_Explorer aVertexExplorer(aShape, TopAbs_VERTEX);
+            TopExp_Explorer aVertexExplorer(aShape, TopAbs_VERTEX, TopAbs_WIRE);
             TopoDS_Vertex aVertex = TopoDS::Vertex(aVertexExplorer.Current());
             gp_Pnt CE = BRep_Tool::Pnt(aVertex);
             gp_Pnt origin(0.,0.,0.);
@@ -123,13 +122,13 @@ void makeTrackLoft(std::string const sourceFolder, std::string const destination
             
             gp_Trsf profileRot;
             gp_Dir xAxis(1.0,0.0,0.0);
-            gp_Ax1 rotAx(origin, xAxis);
+            gp_Ax1 rotAx(CE, xAxis);
             profileRot.SetRotation(rotAx, M_PI/2);
             
             gp_Trsf trackRot;
             Standard_Real angle = atan2(dir.Y(),dir.X())-M_PI/2;
             gp_Dir zAxis(0.0,0.0,1.0);
-            gp_Ax1 rotAz(origin, zAxis);
+            gp_Ax1 rotAz(CE, zAxis);
             trackRot.SetRotation(rotAz, angle);
             
 #ifdef TEST_PROFILES
@@ -194,10 +193,10 @@ void makeTrackSpline2D(std::string const sourceFolder, std::string const destina
             aCurve->Reverse();
         }
         
-        TopExp_Explorer aVertexExplorer(aShape, TopAbs_VERTEX);
+        TopExp_Explorer aVertexExplorer(aShape, TopAbs_VERTEX, TopAbs_EDGE);
         TopoDS_Vertex aVertex = TopoDS::Vertex(aVertexExplorer.Current());
         gp_Pnt PV = BRep_Tool::Pnt(aVertex);
-        
+
         /* Find transformation from profile section to position on track */
         double sx = profiles[row].sx;
         gp_Pnt loc;

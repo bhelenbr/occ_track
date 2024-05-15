@@ -17,8 +17,8 @@ int main(int argc, char **argv) {
     myRun = Sochi;
     myRun = ConvertProfiles;
     myRun = straightTrackEdges;
-    myRun = LakePlacid;
     myRun = straightTrackEdges;
+    myRun = LakePlacid;
     myRun = makeProfilesParkCity;
     myRun = ParkCity;
 

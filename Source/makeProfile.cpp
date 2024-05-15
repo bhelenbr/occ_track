@@ -59,6 +59,8 @@
 
 #include "occ_track.h"
 
+//#define VERBOSE
+
 void makeProfiles(std::string const sourceFile, std::string const destinationFolder) {
     std::ifstream input;
     std::string line;
@@ -88,6 +90,7 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
     const double RR = 125.0; // Right Radius
     double Sx,Az,A,B,AT,BT,H1,MY,MN,R1,INCL,HZ,WZ,H2,R2,KH,UEB,B1,AK1,BW1,AK3,HW2,BHS,BW,BGES,CE,DFA,R1x,R1y,R2x,R2y,Offset,WR2;
     int rows = 0;
+    int prevProfileType = 0, profileType;
     while (std::getline(input, line)) {
         std::istringstream dstream(line);
         std::getline(dstream,Type,',');
@@ -104,35 +107,52 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
             of << Sx << ' ' << -B+CE << ' ' << BW+CE << ' ' << KH << ' ' << BH << ' ' << BRK << std::endl;
         }
 
+        /* Decide what kind of profile it is */
+        std::string filename = destinationFolder +"/" +myProfile.filename;
+        if (abs(AT) < 1.0e-6) {
+            /* If AT,BT = 0.0 then it is a straight section */
+#ifdef VERBOSE
+            std::cout << "Straight " << myProfile.filename << ' ' << B << ' ' << BW << ' ' << KH << ' ' << BH << ' ' << R1 << ' ' << RR << std::endl;
+#endif
+            makeStraightProfile(filename, Dir, B, BW, KH, BH, R1, RR);
+            profileType = 0;
+        }
+        else if (R1 < 1.0e-6) {
+            /* If R1 = 0.0 then it is a curve */
+#ifdef VERBOSE
+            std::cout << "Curve " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << HZ << ' ' << WZ << ' ' << KH << ' ' << BW << ' ' << R2 << ' ' << BH << ' ' << B1 << ' ' << RR << std::endl;
+#endif
+            makeCurveProfile(filename, Dir, A, B, HZ, WZ, KH, BW, R2, BH, B1, RR, CE);
+            profileType = 1;
+        }
+        else if (BW1 < 1.0e-6) {
+            /* then if BW1 = 0 it is a straight transiton */
+#ifdef VERBOSE
+            std::cout << "Straight Transition " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << R1 << ' ' << KH << ' ' << BW << ' ' << RR << ' ' << BH << std::endl;
+#endif
+            makeStraightTransitionProfile(filename, Dir, A, B, R1, KH, HZ, R2, BW, RR, BH, CE);
+            profileType = 2;
+        }
+        else {
+            /* else it is a curve transition */
+#ifdef VERBOSE
+            std::cout << "Curve Transition " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << HZ << ' ' << R1 << ' ' << KH << ' ' << BW << ' ' << R2 << ' ' << BH << ' ' << B1 << ' ' << RR << std::endl;
+#endif
+            makeCurveTransitionProfile(filename, Dir, A, B, HZ, R1, KH, BW, R2, BH, B1, RR, CE);
+            profileType = 3;
+        }
+        
         std::ostringstream nstr;
         nstr << Sx << '_' << Type << '_' << Dir;
         myProfile.filename = "Profiles/" +nstr.str() +".brep";
         myProfile.sx = Sx;
         myProfile.BRK = BRK;
-        profiles.push_back(myProfile);
         
-        /* Decide what kind of profile it is */
-        std::string filename = destinationFolder +"/" +myProfile.filename;
-        if (abs(AT) < 1.0e-6) {
-            /* If AT,BT = 0.0 then it is a straight section */
-            std::cout << "Straight " << myProfile.filename << ' ' << B << ' ' << BW << ' ' << KH << ' ' << BH << ' ' << R1 << ' ' << RR << std::endl;
-            makeStraightProfile(filename, Dir, B, BW, KH, BH, R1, RR);
+        if (profileType != prevProfileType) {
+            myProfile.BRK = 1;
         }
-        else if (R1 < 1.0e-6) {
-            /* If R1 = 0.0 then it is a curve */
-            std::cout << "Curve " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << HZ << ' ' << WZ << ' ' << KH << ' ' << BW << ' ' << R2 << ' ' << BH << ' ' << B1 << ' ' << RR << std::endl;
-            makeCurveProfile(filename, Dir, A, B, HZ, WZ, KH, BW, R2, BH, B1, RR, CE);
-        }
-        else if (BW1 < 1.0e-6) {
-            /* then if BW1 = 0 it is a straight transiton */
-            std::cout << "Straight Transition " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << R1 << ' ' << KH << ' ' << BW << ' ' << RR << ' ' << BH << std::endl;
-            makeStraightTransitionProfile(filename, Dir, A, B, R1, KH, HZ, R2, BW, RR, BH, CE);
-        }
-        else {
-            /* else it is a curve transition */
-            std::cout << "Curve Transition " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << HZ << ' ' << R1 << ' ' << KH << ' ' << BW << ' ' << R2 << ' ' << BH << ' ' << B1 << ' ' << RR << std::endl;
-            makeCurveTransitionProfile(filename, Dir, A, B, HZ, R1, KH, BW, R2, BH, B1, RR, CE);
-        }
+        profiles.push_back(myProfile);
+        prevProfileType = profileType;
         ++rows;
     }
     of.close();
@@ -196,27 +216,28 @@ void makeStraightProfile(std::string const filename, std::string const Dir, doub
 //        myComposite.D0(U,aPnt);
 //        std::cout << aPnt.X() << ' ' << aPnt.Y() << ' ' << aPnt.Z() << std::endl;
 //    }
-    
-    std::ofstream of;
-    of.open(filename);
-    gp_Pnt aPnt;
+
     gp_Pnt origin(0.0,0.0,0.0);
+    TopoDS_Wire finalWire;
     if (Dir == "L") {
         /* Mirror Edge */
         gp_Trsf Mirror;
         gp_Ax2 anAx2(origin,xAxis,zAxis);
         Mirror.SetMirror(anAx2);
         BRepBuilderAPI_Transform myTransform(myWireProfile,Mirror);
-        TopoDS_Wire newWire = TopoDS::Wire(myTransform.Shape());
-        BRepTools::Write(newWire,of);
+        finalWire = TopoDS::Wire(myTransform.Shape());
     }
     else {
-        BRepTools::Write(myWireProfile,of);
+        finalWire = myWireProfile;
     }
     
     TopoDS_Vertex V = BRepBuilderAPI_MakeVertex(origin);
-    BRepTools::Write(V,of);
-    of.close();
+    BRep_Builder builder;
+    TopoDS_Compound Comp;
+    builder.MakeCompound(Comp);
+    builder.Add(Comp,finalWire);
+    builder.Add(Comp,V);
+    BRepTools::Write(Comp,filename.c_str());
 
 //    If you need the real Geom_Curve then you have to approximate CompCurve into bspline using available approximation tool
 //    (e.g. AdvApprox_ApproxAFunction, see GeomLib::BuildCurve3d).
@@ -243,7 +264,7 @@ void makeStraightTransitionProfile(std::string const filename, std::string const
         anEllipse = gp_Elips(anAx2,A,B);
     }
     
-    double BT=0.0,AT=0.0,MY;
+    double BT=0.0,AT=0.0,MY,BT_old=0.0;
     double dx=0.0,dy=0.0;
 
     /* Find tangency point between ellipse and circle */
@@ -259,16 +280,16 @@ void makeStraightTransitionProfile(std::string const filename, std::string const
         // R1^2/(1+dy/dx^2) = dx^2;
         dx = sqrt(R1*R1/(1+inv*inv));
         double Biter = BT -dx +R1;
-        double BT_old = BT;
+        BT_old = BT;
         BT = (B-Biter)+BT;
-        if (abs(BT_old-BT) < 1.0e-14) {
+        if (abs(BT_old-BT) < 1.0e-12) {
             converged = true;
             break;
         }
     }
     if (!converged) {
-        std::cout << "difficulty converging" << std::endl;
-        std::cout << BT << ' ' << AT << ' ' << std::endl;
+        std::cout << "difficulty converging ST" << std::endl;
+        std::cout << BT -BT_old << std::endl;
     }
     BT = -BT;
     MY = AT+sqrt(R1*R1-dx*dx);
@@ -333,26 +354,28 @@ void makeStraightTransitionProfile(std::string const filename, std::string const
     mkWire.Add(rEdge);
     TopoDS_Wire myWireProfile = mkWire.Wire();
 
-    std::ofstream of;
-    of.open(filename);
+    TopoDS_Wire finalWire;
     if (Dir == "L") {
         /* Mirror Edge */
         gp_Trsf Mirror;
         anAx2 = gp_Ax2(origin,xAxis,zAxis);
         Mirror.SetMirror(anAx2);
         BRepBuilderAPI_Transform myTransform(myWireProfile,Mirror);
-        TopoDS_Wire newWire = TopoDS::Wire(myTransform.Shape());
-        BRepTools::Write(newWire,of);
+        finalWire = TopoDS::Wire(myTransform.Shape());
         aPnt = gp_Pnt(CE,0.0,0.0);
     }
     else {
-        BRepTools::Write(myWireProfile,of);
+        finalWire = myWireProfile;
         aPnt = gp_Pnt(-CE,0.0,0.0);
     }
 
     TopoDS_Vertex V = BRepBuilderAPI_MakeVertex(aPnt);
-    BRepTools::Write(V,of);
-    of.close();
+    BRep_Builder builder;
+    TopoDS_Compound Comp;
+    builder.MakeCompound(Comp);
+    builder.Add(Comp,finalWire);
+    builder.Add(Comp,V);
+    BRepTools::Write(Comp,filename.c_str());
 }
 
 void makeCurveProfile(std::string const filename, std::string const Dir, double A, double B, double HZ, double WZ, double KH, double BW, double R2, double BH, double B1, double RR, double CE) {
@@ -374,7 +397,7 @@ void makeCurveProfile(std::string const filename, std::string const Dir, double 
         anEllipse = gp_Elips(anAx2,A,B);
     }
     
-    double BT=0.0,AT=0.0;
+    double BT=0.0,AT=0.0,AT_old=0.0;
     double dx,dy;
     if (HZ > 1.0e-6) {
         double slope_target = WZ/HZ;
@@ -386,16 +409,16 @@ void makeCurveProfile(std::string const filename, std::string const Dir, double 
             BT = B*sqrt(1-pow((AT-A)/A,2));
             // 2x dx/dy/B^2 +2*(y-A)/A^2 = 0
             double slope = -2*(AT-A)/(A*A*2*BT)*B*B;
-            double AT_old = AT;
+            AT_old = AT;
             AT = (slope-slope_target)*(A*A*2*BT)/(B*B*2) +AT;
-            if (abs(AT_old-AT) < 1.0e-14) {
+            if (abs(AT_old-AT) < 1.0e-12) {
                 converged = true;
                 break;
             }
         }
         if (!converged) {
-            std::cout << "difficulty converging" << std::endl;
-            std::cout << BT << ' ' << AT << std::endl;
+            std::cout << "difficulty converging CP" << std::endl;
+            std::cout << AT -AT_old << std::endl;
         }
     }
     else {
@@ -462,27 +485,29 @@ void makeCurveProfile(std::string const filename, std::string const Dir, double 
     mkWire.Add(rEdge);
     TopoDS_Wire myWireProfile = mkWire.Wire();
     
-    std::ofstream of;
-    of.open(filename);
+    TopoDS_Wire finalWire;
     if (Dir == "L") {
         /* Mirror Edge */
         gp_Trsf Mirror;
         anAx2 = gp_Ax2(origin,xAxis,zAxis);
         Mirror.SetMirror(anAx2);
         BRepBuilderAPI_Transform myTransform(myWireProfile,Mirror);
-        TopoDS_Wire newWire = TopoDS::Wire(myTransform.Shape());
-        BRepTools::Write(newWire,of);
+        finalWire = TopoDS::Wire(myTransform.Shape());
         aPnt = gp_Pnt(CE,0.0,0.0);
     }
     else {
-        BRepTools::Write(myWireProfile,of);
+        finalWire = myWireProfile;
         aPnt = gp_Pnt(-CE,0.0,0.0);
 
     }
 
     TopoDS_Vertex V = BRepBuilderAPI_MakeVertex(aPnt);
-    BRepTools::Write(V,of);
-    of.close();
+    BRep_Builder builder;
+    TopoDS_Compound Comp;
+    builder.MakeCompound(Comp);
+    builder.Add(Comp,finalWire);
+    builder.Add(Comp,V);
+    BRepTools::Write(Comp,filename.c_str());
 }
 
 void makeCurveTransitionProfile(std::string const filename, std::string const Dir, double A, double B, double HZ, double R1, double KH, double BW, double R2, double BH, double B1, double Rr, double CE) {
@@ -504,13 +529,13 @@ void makeCurveTransitionProfile(std::string const filename, std::string const Di
         anEllipse = gp_Elips(anAx2,A,B);
     }
     
-    double BT=0.0,AT=0.0,MY=0.0;
+    double BT=0.0,AT=0.0,MY=0.0,BT_old=0.0;
     double dx=0.0,dy=0.0;
 
     /* Find tangency point between ellipse and circle */
     BT = 0.9*B;
     bool converged = false;
-    for (int iter = 0; iter < 10000; ++iter) {
+    for (int iter = 0; iter < 50000; ++iter) {
         // x^2/B^2 +(y-A)^2/A^2 = 1
         AT = A*(1.-sqrt(1.-pow(BT/B,2)));
         // 2x/B^2 +2*(y-A)*dy/dx/A^2 = 0
@@ -520,16 +545,16 @@ void makeCurveTransitionProfile(std::string const filename, std::string const Di
         // R1^2/(1+dy/dx^2) = dx^2;
         dx = sqrt(R1*R1/(1+inv*inv));
         double Biter = BT -dx +R1;
-        double BT_old = BT;
+        BT_old = BT;
         BT = (B-Biter)+BT;
-        if (abs(BT_old-BT) < 1.0e-14) {
+        if (abs(BT_old-BT) < 1.0e-12) {
             converged = true;
             break;
         }
     }
     if (!converged) {
-        std::cout << "difficulty converging" << std::endl;
-        std::cout << BT << ' ' << AT << ' ' << MY << std::endl;
+        std::cout << "difficulty converging CT" << std::endl;
+        std::cout << BT -BT_old << std::endl;
     }
     BT = -BT;
     MY = AT+sqrt(R1*R1-dx*dx);
@@ -602,27 +627,27 @@ void makeCurveTransitionProfile(std::string const filename, std::string const Di
     mkWire.Add(rEdge);
     TopoDS_Wire myWireProfile = mkWire.Wire();
     
-    std::ofstream of;
-    of.open(filename);
+    TopoDS_Wire finalWire;
     if (Dir == "L") {
         /* Mirror Edge */
         gp_Trsf Mirror;
         anAx2 = gp_Ax2(origin,xAxis,zAxis);
         Mirror.SetMirror(anAx2);
         BRepBuilderAPI_Transform myTransform(myWireProfile,Mirror);
-        TopoDS_Wire newWire = TopoDS::Wire(myTransform.Shape());
-        BRepTools::Write(newWire,of);
+        finalWire = TopoDS::Wire(myTransform.Shape());
         aPnt = gp_Pnt(CE,0.0,0.0);
     }
     else {
-        BRepTools::Write(myWireProfile,of);
+        finalWire = myWireProfile;
         aPnt = gp_Pnt(-CE,0.0,0.0);
     }
-
-    
     TopoDS_Vertex V = BRepBuilderAPI_MakeVertex(aPnt);
-    BRepTools::Write(V,of);
-    of.close();
+    BRep_Builder builder;
+    TopoDS_Compound Comp;
+    builder.MakeCompound(Comp);
+    builder.Add(Comp,finalWire);
+    builder.Add(Comp,V);
+    BRepTools::Write(Comp,filename.c_str());
 }
 
 void step2BRep(std::string const filename) {
