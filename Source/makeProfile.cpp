@@ -75,63 +75,75 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
         hcols[word] = cols++;
     }
     
+    std::ofstream of;
+    of.open(destinationFolder +"/Results/dims.txt");
+    
     /* Input line and make profile*/
     std::vector<profileData> profiles;
     profileData myProfile;
-    std::string Type,Dir;
+    std::string Type,Dir,num;
+    char com;
+    int BRK;
+    
     const double RR = 125.0; // Right Radius
     double Sx,Az,A,B,AT,BT,H1,MY,MN,R1,INCL,HZ,WZ,H2,R2,KH,UEB,B1,AK1,BW1,AK3,HW2,BHS,BW,BGES,CE,DFA,R1x,R1y,R2x,R2y,Offset,WR2;
     int rows = 0;
     while (std::getline(input, line)) {
-        std::stringstream dstream(line);
-        dstream >> Type >> Dir >> Sx >> Az >> A >> B >> AT >> BT >> H1 >> MY >> MN >> R1 >> INCL;
-        dstream >> HZ >> WZ >> H2 >> R2 >> KH >> UEB >> B1 >> AK1 >> BW1 >> AK3 >> HW2 >> BHS;
-        dstream >> BW >> BGES >> CE >> DFA >> R1x >> R1y >> R2x >> R2y >> Offset >> WR2;
+        std::istringstream dstream(line);
+        std::getline(dstream,Type,',');
+        std::getline(dstream,Dir,',');
+        dstream >> Sx >> com >> Az >> com >> A >> com >> B >> com >> AT >> com >> BT >> com >> H1 >> com >> MY >> com >> MN >> com >> R1 >> com >> INCL >> com;
+        dstream >> HZ >> com >> WZ >> com >> H2 >> com >> R2 >> com >> KH >> com >> UEB >> com >> B1 >> com >> AK1 >> com >> BW1 >> com >> AK3 >> com >> HW2 >> com >> BHS >> com;
+        dstream >> BW >> com >> BGES >> com >> CE >> com >> DFA >> com >> R1x >> com >> R1y >> com >> R2x >> com >> R2y >> com >> Offset >> com >> WR2 >> com >> BRK;
+        double BH = AK3+HW2;
         
+        if (Dir == "L") {
+            of << Sx << ' ' << -BW-CE  << ' ' << B-CE << ' ' << BH << ' ' << KH << ' ' << BRK << std::endl;
+        }
+        else {
+            of << Sx << ' ' << -B+CE << ' ' << BW+CE << ' ' << KH << ' ' << BH << ' ' << BRK << std::endl;
+        }
+
         std::ostringstream nstr;
         nstr << Sx << '_' << Type << '_' << Dir;
         myProfile.filename = "Profiles/" +nstr.str() +".brep";
         myProfile.sx = Sx;
+        myProfile.BRK = BRK;
         profiles.push_back(myProfile);
         
         /* Decide what kind of profile it is */
         std::string filename = destinationFolder +"/" +myProfile.filename;
         if (abs(AT) < 1.0e-6) {
             /* If AT,BT = 0.0 then it is a straight section */
-            double BH = AK3+HW2;
             std::cout << "Straight " << myProfile.filename << ' ' << B << ' ' << BW << ' ' << KH << ' ' << BH << ' ' << R1 << ' ' << RR << std::endl;
             makeStraightProfile(filename, Dir, B, BW, KH, BH, R1, RR);
         }
         else if (R1 < 1.0e-6) {
             /* If R1 = 0.0 then it is a curve */
-            double BH = AK3+HW2;
             std::cout << "Curve " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << HZ << ' ' << WZ << ' ' << KH << ' ' << BW << ' ' << R2 << ' ' << BH << ' ' << B1 << ' ' << RR << std::endl;
             makeCurveProfile(filename, Dir, A, B, HZ, WZ, KH, BW, R2, BH, B1, RR, CE);
         }
         else if (BW1 < 1.0e-6) {
             /* then if BW1 = 0 it is a straight transiton */
-            double BH = AK3+HW2;
             std::cout << "Straight Transition " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << R1 << ' ' << KH << ' ' << BW << ' ' << RR << ' ' << BH << std::endl;
             makeStraightTransitionProfile(filename, Dir, A, B, R1, KH, HZ, R2, BW, RR, BH, CE);
         }
         else {
             /* else it is a curve transition */
-            double BH = AK3+HW2;
             std::cout << "Curve Transition " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << HZ << ' ' << R1 << ' ' << KH << ' ' << BW << ' ' << R2 << ' ' << BH << ' ' << B1 << ' ' << RR << std::endl;
             makeCurveTransitionProfile(filename, Dir, A, B, HZ, R1, KH, BW, R2, BH, B1, RR, CE);
         }
         ++rows;
     }
+    of.close();
     
-    std::ofstream of;
     of.open(destinationFolder +"/profiles.txt");
     /* Output profile file*/
     for (int i=0; i < rows; ++i) {
-        of << profiles[i].filename << ' ' << profiles[i].sx << std::endl;
+        of << profiles[i].filename << ' ' << profiles[i].sx << ' ' << profiles[i].BRK << std::endl;
     }
     of.close();
 }
-
 
 
 void makeStraightProfile(std::string const filename, std::string const Dir, double B, double BW, double KH, double BH, double R1, double RR) {
@@ -372,7 +384,6 @@ void makeCurveProfile(std::string const filename, std::string const Dir, double 
         for (int iter = 0; iter < 100; ++iter) {
             // x^2/B^2 +(y-A)^2/A^2 = 1
             BT = B*sqrt(1-pow((AT-A)/A,2));
-            std::cout << BT/B << std::endl;
             // 2x dx/dy/B^2 +2*(y-A)/A^2 = 0
             double slope = -2*(AT-A)/(A*A*2*BT)*B*B;
             double AT_old = AT;

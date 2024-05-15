@@ -59,12 +59,13 @@
 // #include <assert>
 
 #include "occ_track.h"
+//#define TEST_PROFILES
 
 void loadProfileData(std::string const filename, std::vector<profileData>& profiles) {
     profileData myProfile;
     std::ifstream profileFile;
     profileFile.open(filename);
-    while(profileFile >> myProfile.filename >> myProfile.sx) {
+    while(profileFile >> myProfile.filename >> myProfile.sx >> myProfile.BRK) {
         profiles.push_back(myProfile);
     }
     profileFile.close();
@@ -79,69 +80,79 @@ void makeTrackLoft(std::string const sourceFolder, std::string const destination
     loadProfileData(sourceFolder +"/profiles.txt", profiles);
     const int nProfiles = int(profiles.size());
     
-    BRepOffsetAPI_ThruSections trackLoft;
-    for(int row = 0; row < nProfiles; ++ row) {
-        BRep_Builder aBuilder;
-        TopoDS_Shape aShape;
-        std::ifstream fs;
-        fs.open(sourceFolder +"/" +profiles[row].filename);
-        if ( (fs.rdstate() & std::ifstream::failbit ) != 0 ) {
-            std::cout << row << std::endl;
-            std::cout << "Trouble reading " << sourceFolder +"/" +profiles[row].filename << std::endl;
-            exit(1);
-        }
-        BRepTools::Read(aShape,fs,aBuilder);
-
-        /* Just exploring this surface a bit */
-        TopExp_Explorer aWireExplorer(aShape, TopAbs_WIRE);
-        TopoDS_Wire aWire = TopoDS::Wire(aWireExplorer.Current());
-        
-        BRepTools::Read(aShape,fs,aBuilder);
-        TopExp_Explorer aVertexExplorer(aShape, TopAbs_VERTEX);
-        TopoDS_Vertex aVertex = TopoDS::Vertex(aVertexExplorer.Current());
-        gp_Pnt CE = BRep_Tool::Pnt(aVertex);
-        gp_Pnt origin(0.,0.,0.);
-        
-        /* Find transformation from profile section to position on track */
-        double sx = profiles[row].sx;
-        gp_Pnt loc;
-        gp_Vec dir;
-        C->D1(sx, loc, dir);
+    int BRKcount = 0;
+    int row = 0;
+    while (row < nProfiles) {
+        BRepOffsetAPI_ThruSections trackLoft;
+        do {
+            BRep_Builder aBuilder;
+            TopoDS_Shape aShape;
+            std::ifstream fs;
+            fs.open(sourceFolder +"/" +profiles[row].filename);
+            if ( (fs.rdstate() & std::ifstream::failbit ) != 0 ) {
+                std::cout << row << std::endl;
+                std::cout << "Trouble reading " << sourceFolder +"/" +profiles[row].filename << std::endl;
+                exit(1);
+            }
+            BRepTools::Read(aShape,fs,aBuilder);
+            
+            /* Just exploring this surface a bit */
+            TopExp_Explorer aWireExplorer(aShape, TopAbs_WIRE);
+            TopoDS_Wire aWire = TopoDS::Wire(aWireExplorer.Current());
+            
+            BRepTools::Read(aShape,fs,aBuilder);
+            TopExp_Explorer aVertexExplorer(aShape, TopAbs_VERTEX);
+            TopoDS_Vertex aVertex = TopoDS::Vertex(aVertexExplorer.Current());
+            gp_Pnt CE = BRep_Tool::Pnt(aVertex);
+            gp_Pnt origin(0.,0.,0.);
+            
+            /* Find transformation from profile section to position on track */
+            double sx = profiles[row].sx;
+            gp_Pnt loc;
+            gp_Vec dir;
+            C->D1(sx, loc, dir);
 #ifdef TEST_PROFILES
-        loc = gp_Pnt(0.0,sx,0.0);
+            loc = gp_Pnt(0.0,sx,0.0);
 #endif
-        gp_Trsf trackScale;
-        trackScale.SetScale(origin,0.001);  // Convert to meters
-        
-        CE.Scale(origin,0.001);
-        gp_Trsf profileTrans;
-        profileTrans.SetTranslation(CE, loc);
-        
-        gp_Trsf profileRot;
-        gp_Dir xAxis(1.0,0.0,0.0);
-        gp_Ax1 rotAx(origin, xAxis);
-        profileRot.SetRotation(rotAx, M_PI/2);
-        
-        gp_Trsf trackRot;
-        Standard_Real angle = atan2(dir.Y(),dir.X())-M_PI/2;
-        gp_Dir zAxis(0.0,0.0,1.0);
-        gp_Ax1 rotAz(origin, zAxis);
-        trackRot.SetRotation(rotAz, angle);
-
+            gp_Trsf trackScale;
+            trackScale.SetScale(origin,0.001);  // Convert to meters
+            
+            CE.Scale(origin,0.001);
+            gp_Trsf profileTrans;
+            profileTrans.SetTranslation(CE, loc);
+            
+            gp_Trsf profileRot;
+            gp_Dir xAxis(1.0,0.0,0.0);
+            gp_Ax1 rotAx(origin, xAxis);
+            profileRot.SetRotation(rotAx, M_PI/2);
+            
+            gp_Trsf trackRot;
+            Standard_Real angle = atan2(dir.Y(),dir.X())-M_PI/2;
+            gp_Dir zAxis(0.0,0.0,1.0);
+            gp_Ax1 rotAz(origin, zAxis);
+            trackRot.SetRotation(rotAz, angle);
+            
 #ifdef TEST_PROFILES
-        gp_Trsf Total = profileTrans*profileRot*trackScale;
+            gp_Trsf Total = profileTrans*profileRot*trackScale;
 #else
-        gp_Trsf Total = profileTrans*trackRot*profileRot*trackScale;
+            gp_Trsf Total = profileTrans*trackRot*profileRot*trackScale;
 #endif
-        BRepBuilderAPI_Transform myTransform(aWire,Total);
-        TopoDS_Wire newWire = TopoDS::Wire(myTransform.ModifiedShape(aWire));
-        BRepTools::Write(newWire,(destinationFolder +"/" +profiles[row].filename).c_str());
+            BRepBuilderAPI_Transform myTransform(aWire,Total);
+            TopoDS_Wire newWire = TopoDS::Wire(myTransform.ModifiedShape(aWire));
+            BRepTools::Write(newWire,(destinationFolder +"/" +profiles[row].filename).c_str());
+            
+            trackLoft.AddWire(newWire);
+            ++row;
+        } while(profiles[row].BRK == 0 && row < nProfiles);
         
-        trackLoft.AddWire(newWire);
+        TopoDS_Shape track = trackLoft.Shape();
+        std::ostringstream nstr;
+        nstr << "/theTrack" << BRKcount << ".brep";
+        /* Write brep file */
+        BRepTools::Write(track,(destinationFolder +nstr.str()).c_str());
+        trackLoft.Init();
+        ++BRKcount;
     }
-    TopoDS_Shape track = trackLoft.Shape();
-    /* Write brep file */
-    BRepTools::Write(track,(destinationFolder +"/theTrack.brep").c_str());
 }
 
 void makeTrackSpline2D(std::string const sourceFolder, std::string const destinationFolder) {
@@ -173,7 +184,7 @@ void makeTrackSpline2D(std::string const sourceFolder, std::string const destina
         /* Just exploring this surface a bit */
         TopExp_Explorer anEdgeExplorer(aShape, TopAbs_EDGE);
         TopoDS_Edge anEdge = TopoDS::Edge(anEdgeExplorer.Current());
-                
+        
         Standard_Real begin, end;
         Handle(Geom_Curve) aCurve = BRep_Tool::Curve(anEdge, begin, end);
         gp_Pnt beginPnt = aCurve->Value(begin);
@@ -262,7 +273,7 @@ void makeTrackSpline2D(std::string const sourceFolder, std::string const destina
     
     Handle(Geom_BSplineSurface) trackSurface = new Geom_BSplineSurface(myPoints, UKnots, VKnots, UMults, VMults, 3, 3);
     outputSpline2D(destinationFolder +"/track_surface_pts.txt", nProfiles, nCrossPts, trackSurface);
-
+    
     
     // Offset surface to account for cement & ice thickness
     BRepOffset_Status Status;
@@ -446,7 +457,7 @@ void makeStraightSpline2D(std::string const destinationFolder) {
     }
     
     TopoDS_Face F = FaceMaker.Face();
-
+    
     /* Write brep file */
     BRepTools::Write(F,(destinationFolder +"/spline.brep").c_str());
     

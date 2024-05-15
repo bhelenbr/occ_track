@@ -23,6 +23,7 @@ void outputSpline1D(const std::string filename, int nPts, Handle(const Geom_BSpl
 struct profileData {
     std::string filename;
     double sx;
+    int BRK;
 };
 void loadProfileData(std::string const filename, std::vector<profileData>& profiles);
 void makeTrackLoft(std::string const sourceFolder, std::string const destinationFolder);
