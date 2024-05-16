@@ -142,7 +142,7 @@ void makeTrackLoft(std::string const sourceFolder, std::string const destination
             
             trackLoft.AddWire(newWire);
             ++row;
-        } while(profiles[row].BRK == 0 && row < nProfiles);
+        } while(profiles[row-1].BRK == 0 && row < nProfiles);
         
         TopoDS_Shape track = trackLoft.Shape();
         std::ostringstream nstr;

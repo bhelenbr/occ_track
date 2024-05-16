@@ -14,11 +14,11 @@ int main(int argc, char **argv) {
     
     run myRun;
     myRun = straightTrackSpline2D;
-    myRun = Sochi;
-    myRun = ConvertProfiles;
     myRun = straightTrackEdges;
     myRun = straightTrackEdges;
     myRun = LakePlacid;
+    myRun = ConvertProfiles;
+    myRun = Sochi;
     myRun = makeProfilesParkCity;
     myRun = ParkCity;
 
@@ -45,7 +45,8 @@ int main(int argc, char **argv) {
             break;
         }
         case(ConvertProfiles): {
-            convertProfiles2BRep("TrackData_LKP");
+            convertProfiles2BRep("TrackData_Sochi");
+//            convertProfiles2BRep("TrackData_LKP");
             break;
         }
         case(makeProfilesParkCity): {

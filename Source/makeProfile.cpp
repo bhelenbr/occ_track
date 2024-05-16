@@ -108,13 +108,19 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
         }
 
         /* Decide what kind of profile it is */
+        std::ostringstream nstr;
+        nstr << Sx << '_' << Type << '_' << Dir;
+        myProfile.filename = "Profiles/" +nstr.str() +".brep";
+        myProfile.sx = Sx;
+        myProfile.BRK = BRK;
         std::string filename = destinationFolder +"/" +myProfile.filename;
+
         if (abs(AT) < 1.0e-6) {
             /* If AT,BT = 0.0 then it is a straight section */
 #ifdef VERBOSE
             std::cout << "Straight " << myProfile.filename << ' ' << B << ' ' << BW << ' ' << KH << ' ' << BH << ' ' << R1 << ' ' << RR << std::endl;
 #endif
-            makeStraightProfile(filename, Dir, B, BW, KH, BH, R1, RR);
+            makeStraightProfile(filename, Dir, B, BW, KH, BH, R1, RR, CE);
             profileType = 0;
         }
         else if (R1 < 1.0e-6) {
@@ -141,16 +147,10 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
             makeCurveTransitionProfile(filename, Dir, A, B, HZ, R1, KH, BW, R2, BH, B1, RR, CE);
             profileType = 3;
         }
-        
-        std::ostringstream nstr;
-        nstr << Sx << '_' << Type << '_' << Dir;
-        myProfile.filename = "Profiles/" +nstr.str() +".brep";
-        myProfile.sx = Sx;
-        myProfile.BRK = BRK;
-        
-        if (profileType != prevProfileType) {
-            myProfile.BRK = 1;
-        }
+    
+//        if (profileType != prevProfileType) {
+//            myProfile.BRK = 1;
+//        }
         profiles.push_back(myProfile);
         prevProfileType = profileType;
         ++rows;
@@ -166,7 +166,7 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
 }
 
 
-void makeStraightProfile(std::string const filename, std::string const Dir, double B, double BW, double KH, double BH, double R1, double RR) {
+void makeStraightProfile(std::string const filename, std::string const Dir, double B, double BW, double KH, double BH, double R1, double RR, double CE) {
     const gp_Dir xAxis(1.0,0.0,0.0);
     const gp_Dir yAxis(0.0,1.0,0.0);
     const gp_Dir zAxis(0.0,0.0,1.0);
@@ -202,22 +202,8 @@ void makeStraightProfile(std::string const filename, std::string const Dir, doub
     mkWire.Add(aWire2);
     TopoDS_Wire myWireProfile = mkWire.Wire();
     
-    
-    /* Playing around with this */
-//    BRepAdaptor_CompCurve myComposite(myWireProfile);
-//    Standard_Real U1 = myComposite.FirstParameter();
-//    Standard_Real U2 = myComposite.LastParameter();
-//    gp_Pnt aPnt;
-//
-//    const int nPts = 100;
-//    double du = (U2-U1)/(nPts-1);
-//    for (int i = 0; i < 100; ++i) {
-//        Standard_Real U = U1 +du*i;
-//        myComposite.D0(U,aPnt);
-//        std::cout << aPnt.X() << ' ' << aPnt.Y() << ' ' << aPnt.Z() << std::endl;
-//    }
-
     gp_Pnt origin(0.0,0.0,0.0);
+    gp_Pnt aPnt;
     TopoDS_Wire finalWire;
     if (Dir == "L") {
         /* Mirror Edge */
@@ -226,23 +212,20 @@ void makeStraightProfile(std::string const filename, std::string const Dir, doub
         Mirror.SetMirror(anAx2);
         BRepBuilderAPI_Transform myTransform(myWireProfile,Mirror);
         finalWire = TopoDS::Wire(myTransform.Shape());
+        aPnt = gp_Pnt(CE,0.0,0.0);
     }
     else {
         finalWire = myWireProfile;
+        aPnt = gp_Pnt(-CE,0.0,0.0);
     }
     
-    TopoDS_Vertex V = BRepBuilderAPI_MakeVertex(origin);
+    TopoDS_Vertex V = BRepBuilderAPI_MakeVertex(aPnt);
     BRep_Builder builder;
     TopoDS_Compound Comp;
     builder.MakeCompound(Comp);
     builder.Add(Comp,finalWire);
     builder.Add(Comp,V);
     BRepTools::Write(Comp,filename.c_str());
-
-//    If you need the real Geom_Curve then you have to approximate CompCurve into bspline using available approximation tool
-//    (e.g. AdvApprox_ApproxAFunction, see GeomLib::BuildCurve3d).
-        
-        
 }
 
 void makeStraightTransitionProfile(std::string const filename, std::string const Dir, double A, double B, double R1, double KH, double HZ, double R2, double BW, double Rr, double BH, double CE) {
@@ -669,41 +652,119 @@ void step2BRep(std::string const filename) {
     
     
     Standard_Integer num = reader.TransferRoots();
+    
+    
     if (num != 1) {
         std::cout << "Uh-Oh more than 1 shape in step file\n";
     }
-    for (int rank = 1; rank <= num; ++rank) {
-        TopoDS_Shape shape = reader.Shape(rank);
-        BRepTools::Write(shape,outfile.c_str());
+    else {
+        TopoDS_Shape shape = reader.Shape(1);
+        TopExp_Explorer aVertexExplorer(shape, TopAbs_VERTEX, TopAbs_EDGE);
+        if (!aVertexExplorer.More()) {
+            /* This is a hack to add a centerline point for now */
+            gp_Pnt origin(0.0,0.0,0.0);
+            TopoDS_Vertex V = BRepBuilderAPI_MakeVertex(origin);
+            
+            BRep_Builder builder;
+            TopoDS_Compound Comp;
+            builder.MakeCompound(Comp);
+            builder.Add(Comp,shape);
+            builder.Add(Comp,V);
+            BRepTools::Write(Comp,outfile.c_str());
+        }
+        else {
+            BRepTools::Write(shape,outfile.c_str());
+        }
     }
 }
 
 void convertProfiles2BRep(std::string const sourceFolder) {
-    /* Load names of profile files & arcLength of profile */
-    struct profileData {
-        std::string filename;
-        double sx;
-    };
-    
-    /* Count number of profiles */
-    std::ifstream  profileFile;
-    profileFile.open(sourceFolder +"/profiles.txt");
-    int nProfiles = 0;
-    std::string FileName;
-    double sx;
-    while (profileFile >> FileName >> sx) {
-        ++nProfiles;
-    }
-    profileFile.close();
-    
     /* Load profiles */
-    std::vector<profileData> profiles(nProfiles);
-    profileFile.open(sourceFolder +"/profiles.txt");
-    for (int n=0; n < nProfiles; ++n)    {
-        profileFile >> profiles[n].filename >> profiles[n].sx;
-    }
+    std::vector<profileData> profiles;
+    loadProfileData(sourceFolder +"/profiles.txt", profiles);
+    const int nProfiles = int(profiles.size());
     
     for(int row=0;row<nProfiles;++row) {
         step2BRep(sourceFolder +"/" +profiles[row].filename);
     }
+}
+
+void wireToPoints(TopoDS_Wire aWire, int nPts) {
+    /* Playing around with this */
+    
+    TopoDS_Edge anEdge;
+    TopExp_Explorer edgeExplorer(aWire, TopAbs_EDGE);
+    
+    double length[10];
+    int edgeCounter = 0;
+    for(;edgeExplorer.More();edgeExplorer.Next()){
+        anEdge = TopoDS::Edge(edgeExplorer.Current());
+        Standard_Real begin, end;
+        Handle(Geom_Curve) aCurve = BRep_Tool::Curve(anEdge, begin, end);
+        gp_Pnt pnt;
+        gp_Vec vec;
+        length[edgeCounter] = 0.0;
+        double du = (begin-end)/(nPts-1.);
+        for (int i=0;i<nPts;++i) {
+            Standard_Real U1 = i*du +begin;
+            Standard_Real U2 = U1 +du;
+            aCurve->D1(U1,pnt,vec);
+            length[edgeCounter] += 0.5*vec.Magnitude()*du;
+            aCurve->D1(U2,pnt,vec);
+            length[edgeCounter] += 0.5*vec.Magnitude()*du;
+        }
+        ++edgeCounter;
+    }
+    
+    double totalLength = 0.0;
+    for(int i=0;i<edgeCounter;++i) {
+        totalLength += length[i];
+    }
+    
+    int ptsArray[10];
+    int remPts = nPts-1;
+    for(int i=0;i<edgeCounter;++i) {
+        ptsArray[i] = round(length[i]/totalLength*remPts);
+        totalLength -= length[i];
+        remPts -= ptsArray[i];
+    }
+    
+    edgeCounter = 0;
+    edgeExplorer.ReInit();
+    Standard_Real begin, end = 1.0;
+    gp_Pnt pnt;
+    Handle(Geom_Curve) aCurve;
+    for(;edgeExplorer.More();edgeExplorer.Next()){
+        anEdge = TopoDS::Edge(edgeExplorer.Current());
+        aCurve = BRep_Tool::Curve(anEdge, begin, end);
+        double du = (begin-end)/ptsArray[edgeCounter];
+        for (int i=0;i<ptsArray[edgeCounter];++i) {
+            Standard_Real U1 = i*du +begin;
+            aCurve->D0(U1,pnt);
+            std::cout << pnt.X() << ' ' << pnt.Y() << std::endl;
+        }
+        ++edgeCounter;
+    }
+    /* Add Last Point */
+    aCurve->D0(end,pnt);
+    std::cout << pnt.X() << ' ' << pnt.Y() << std::endl;
+
+    
+    
+    
+//    TopoDS_Wire
+//    BRepAdaptor_CompCurve myComposite(aWire);
+//    Standard_Real U1 = myComposite.FirstParameter();
+//    Standard_Real U2 = myComposite.LastParameter();
+//    gp_Pnt aPnt;
+//
+//    double du = (U2-U1)/(nPts-1);
+//    for (int i = 0; i < 100; ++i) {
+//        Standard_Real U = U1 +du*i;
+//        gp_Vec aVec;
+//        myComposite.D1(U,aPnt,aVec);
+//        std::cout << aPnt.X() << ' ' << aPnt.Y() << ' ' << aPnt.Z() << std::endl;
+//    }
+/*    You can use the class BRepAdaptor_CompCurve if the interface of Adaptor3d_Curve is sufficient for you. If you need the real Geom_Curve then you have to approximate CompCurve into bspline using available approximation tool (e.g. AdvApprox_ApproxAFunction, see GeomLib::BuildCurve3d). */
+
 }

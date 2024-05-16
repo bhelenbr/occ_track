@@ -130,20 +130,6 @@ void outputSpline1D(const std::string filename, int nPts, Handle(const Geom_BSpl
     track_test.close();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void experiments() {
     //    gp_Vec aPrismVec(0, 0, 1.0);
     //    TopoDS_Shape myBody = BRepPrimAPI_MakePrism(F, aPrismVec);

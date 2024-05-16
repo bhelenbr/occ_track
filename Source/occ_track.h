@@ -33,7 +33,7 @@ void outputSpline2D(const std::string filename, int nPtsU, int nPtsV, Handle(Geo
 
 /* Routines to make cross-sections profiles and manipulate*/
 void makeProfiles(std::string const sourceFile, std::string const destinationFolder);
-void makeStraightProfile(std::string const filename, std::string const Dir, double WL, double WR, double HL, double HR, double RL, double RR);
+void makeStraightProfile(std::string const filename, std::string const Dir, double WL, double WR, double HL, double HR, double RL, double RR, double CE);
 void makeStraightTransitionProfile(std::string const filename, std::string const Dir, double A, double B, double R1, double KH, double HZ, double R2, double BW, double Rr, double BH, double CE);
 void makeCurveTransitionProfile(std::string const filename, std::string const Dir, double A, double B, double HZ, double R1, double KH, double BW, double R2, double BH, double B1, double Rr, double CE);
 void makeCurveProfile(std::string const filename, std::string const Dir, double A, double B, double HZ, double WZ, double KH, double BW, double R2, double BH, double B1, double Rr, double CE);
