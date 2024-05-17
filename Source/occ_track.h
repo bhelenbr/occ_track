@@ -19,7 +19,7 @@
 /* Routine to make spline of track spine & output*/
 void makeTrackSpine(std::string const sourceFolder, std::string const destinationFolder, Handle(Geom_BSplineCurve)& C);
 void makeSpine(const std::vector<double>& arcLength, const std::vector<gp_Pnt>& points, Handle(Geom_BSplineCurve)& C);
-void outputSpline1D(const std::string filename, int nPts, Handle(const Geom_BSplineCurve) const C);
+void outputBSplineCurve(const std::string filename, int nPts, Handle(const Geom_BSplineCurve) const C);
 
 /* Routines to make track surfaces of different types and output surface */
 struct profileData {
@@ -29,10 +29,9 @@ struct profileData {
 };
 void loadProfileData(std::string const filename, std::vector<profileData>& profiles);
 void makeTrackLoft(std::string const sourceFolder, std::string const destinationFolder, double scale);
-void makeTrackSpline2D(std::string const sourceFolder, std::string const destinationFolder, double scale);
-void makeStraightSpline2D(std::string const destinationFolder);
+void makeTrackBSpline(std::string const sourceFolder, std::string const destinationFolder, double scale);
 void offsetSurface(std::string input, std::string output, double distance);
-void outputSpline2D(const std::string filename, int nPtsU, int nPtsV, Handle(Geom_BSplineSurface) const C);
+void outputBSplineSurface(const std::string filename, int nPtsU, int nPtsV, Handle(Geom_BSplineSurface) const C);
 
 /* Routines to make cross-sections profiles and manipulate*/
 void makeProfiles(std::string const sourceFile, std::string const destinationFolder);

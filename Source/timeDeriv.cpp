@@ -88,7 +88,7 @@ void timeIntegrate(std::string destinationFolder, Handle(Geom_BSplineSurface con
 	y[2] = 27*1000/3600;;  // If U is arc-length then this will be 27 km/h otherwise have to adjust
 	y[3] = 0.0; // No side ways velocity to start
 	
-	std::cout << U1 << ' ' << U2 << ' ' << V1 << ' ' << V2 << std::endl;
+//	std::cout << U1 << ' ' << U2 << ' ' << V1 << ' ' << V2 << std::endl;
 	
 	double dt = 1.0/30;  // Should move about 1/10 meter per time step
 	double time = 0.0;

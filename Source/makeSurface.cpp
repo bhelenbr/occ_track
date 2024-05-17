@@ -181,7 +181,7 @@ void makeTrackLoft(std::string const sourceFolder, std::string const destination
     }
 }
 
-void makeTrackSpline2D(std::string const sourceFolder, std::string const destinationFolder, double scale) {
+void makeTrackBSpline(std::string const sourceFolder, std::string const destinationFolder, double scale) {
     Handle(Geom_BSplineCurve) C;
     makeTrackSpine(sourceFolder, destinationFolder, C);
     
@@ -253,7 +253,7 @@ void makeTrackSpline2D(std::string const sourceFolder, std::string const destina
     
     /* Write brep file */
     BRepTools::Write(F,(destinationFolder +"/theTrack.brep").c_str());
-    outputSpline2D(destinationFolder +"/track_surface_pts.txt", nProfiles, nCrossPts, trackSurface);
+    outputBSplineSurface(destinationFolder +"/track_surface_pts.txt", nProfiles, nCrossPts, trackSurface);
     timeIntegrate(destinationFolder,trackSurface);
 
 }
@@ -307,158 +307,7 @@ void offsetSurface(std::string input, std::string output, double offset) {
     
 }
 
-void makeStraightSpline2D(std::string const destinationFolder) {
-    
-    /* Make cross sectional profile of straight track test */
-    /* I'm guessing 2 meters wide and 0.5 m high */
-    
-    int Npts = 300;
-    double ds = 3.0/Npts;
-    double radius = 0.1;
-    double width = 2;
-    double height = 0.5;
-    
-    int NptsBottom = (width-2.*radius)/ds;
-    int NptsArc = M_PI/2.*radius/ds;
-    int NptsSide = (height-radius)/ds;
-    
-    std::cout << NptsBottom << ' ' << NptsArc << ' ' << NptsSide << std::endl;
-    std::cout << height << ' ' << radius << ' ' << ds << std::endl;
-    
-    std::vector<gp_Pnt2d> profile_pnts(NptsBottom+2*NptsArc +2*NptsSide);
-    
-    
-    /* First side */
-    int pntcnt = 0;
-    for (int pnt=0; pnt < NptsSide; ++pnt) {
-        profile_pnts[pntcnt++].SetCoord(-width*0.5,height- (height-radius)/NptsSide*pnt);
-    }
-    /* Arc */
-    for (int pnt=0; pnt < NptsArc; ++pnt) {
-        profile_pnts[pntcnt++].SetCoord(-width*0.5+radius -radius*cos(M_PI*pnt/(2.*NptsArc)),radius - radius*sin(M_PI*pnt/(2.*NptsArc)));
-    }
-    /* Bottom */
-    for (int pnt=0; pnt < NptsBottom; ++pnt) {
-        profile_pnts[pntcnt++].SetCoord(-width*0.5+radius +pnt*(width-2*radius)/NptsBottom,0.0);
-    }
-    /* Arc */
-    for (int pnt=0; pnt < NptsArc; ++pnt) {
-        profile_pnts[pntcnt++].SetCoord(width*0.5-radius +radius*sin(M_PI*pnt/(2.*NptsArc)),radius - radius*cos(M_PI*pnt/(2.*NptsArc)));
-    }
-    /* Final side */
-    for (int pnt=0; pnt < NptsSide; ++pnt) {
-        profile_pnts[pntcnt++].SetCoord(width*0.5,radius +(height-radius)/NptsSide*pnt);
-    }
-    
-    
-    
-    /* Make a B-spline Surface */
-    double L = 500.0;
-    double grade = -0.17;
-    double dL = 1.0;
-    
-    int nrow = L/dL;
-    int ncol = NptsBottom+2*(NptsArc +NptsSide);
-    std::cout << ncol << ' ' << pntcnt << std::endl;
-    TColgp_Array2OfPnt myPoints(1,nrow,1,ncol);
-    
-    gp_Pnt P1;
-    for (int row=1;row<=nrow;++row) {
-        double y = dL*row;
-        double z = y*grade;
-        for(int col=1;col<=ncol;++col) {
-            P1 = gp_Pnt(profile_pnts[col-1].X(),y,-z-profile_pnts[col-1].Y());
-            myPoints.SetValue(row,col,P1);
-        }
-    }
-    
-    
-    TColStd_Array1OfReal UKnots(1,nrow);
-    TColStd_Array1OfInteger UMults(1,nrow);
-    for (int row=1;row<=nrow;++row) {
-        UKnots.SetValue(row,static_cast<double>(row-1)/(nrow-1));
-        UMults.SetValue(row,1);
-    }
-    UMults.SetValue(1,3);
-    UMults.SetValue(nrow,3);
-    
-    TColStd_Array1OfReal VKnots(1,ncol);
-    TColStd_Array1OfInteger VMults(1,ncol);
-    for (int col=1;col<=ncol;++col) {
-        VKnots.SetValue(col,static_cast<double>(col-1)/(ncol-1));
-        VMults.SetValue(col,1);
-    }
-    VMults.SetValue(1,3);
-    VMults.SetValue(ncol,3);
-    
-    Handle(Geom_BSplineSurface) C = new Geom_BSplineSurface(myPoints, UKnots, VKnots, UMults, VMults, 3, 3);
-    
-    
-    // Lets check surface to make sure it makes sense
-    C->D0 (0.5, 0.5, P1);
-    std::cout << " Mid Point of Surface " << P1.X() << ' ' << P1.Y() << ' ' << P1.Z() << std::endl;
-    
-    Handle(Geom_Curve) U1 =    C->UIso(0.0);
-    Handle(Geom_Curve) U2 =    C->UIso(1.0);
-    U2->Reverse();
-    Handle(Geom_Curve) V1 =    C->VIso(0.0);
-    V1->Reverse();
-    Handle(Geom_Curve) V2 =    C->VIso(1.0);
-    
-    U1->D0 (0.0, P1);
-    std::cout << "First Point of U1 " << P1.X() << ' ' << P1.Y() << ' ' << P1.Z() << std::endl;
-    U1->D0 (1.0, P1);
-    std::cout << "Last Point of U1 " << P1.X() << ' ' << P1.Y() << ' ' << P1.Z() << std::endl;
-    
-    V2->D0 (0.0, P1);
-    std::cout << "First Point of V2 " << P1.X() << ' ' << P1.Y() << ' ' << P1.Z() << std::endl;
-    V2->D0 (1.0, P1);
-    std::cout << "Last Point of V2 " << P1.X() << ' ' << P1.Y() << ' ' << P1.Z() << std::endl;
-    
-    U2->D0 (0.0, P1);
-    std::cout << "First Point of U2 " << P1.X() << ' ' << P1.Y() << ' ' << P1.Z() << std::endl;
-    U2->D0 (1.0, P1);
-    std::cout << "Last Point of U2 " << P1.X() << ' ' << P1.Y() << ' ' << P1.Z() << std::endl;
-    
-    V1->D0 (0.0, P1);
-    std::cout << "First Point of V1 " << P1.X() << ' ' << P1.Y() << ' ' << P1.Z() << std::endl;
-    V1->D0 (1.0, P1);
-    std::cout << "Last Point of V1 " << P1.X() << ' ' << P1.Y() << ' ' << P1.Z() << std::endl;
-    
-    
-    /* This was just poking around trying to figure out how things worked */
-    //    TopoDS_Edge anEdge1OnSurf1 = BRepBuilderAPI_MakeEdge(U1, C);
-    //    TopoDS_Edge aEdgeU1 = BRepBuilderAPI_MakeEdge(U1);
-    //    TopoDS_Edge aEdgeU2 = BRepBuilderAPI_MakeEdge(U2);
-    //    TopoDS_Edge aEdgeV1 = BRepBuilderAPI_MakeEdge(V1);
-    //    TopoDS_Edge aEdgeV2 = BRepBuilderAPI_MakeEdge(V2);
-    
-    //    BRepBuilderAPI_MakeWire MakeWire(aEdgeU1,aEdgeV2);
-    //    MakeWire.Add(aEdgeU2);
-    //    MakeWire.Add(aEdgeV1);
-    //    TopoDS_Wire myWireProfile = MakeWire.Wire();
-    
-    //TopoDS_Face myFaceProfile = BRepBuilderAPI_MakeFace(myWireProfile);
-    //gp_Vec aPrismVec(0, 0, 1.0);
-    //TopoDS_Shape myBody = BRepPrimAPI_MakePrism(myFaceProfile, aPrismVec);
-    //BRepTools::Write(myBody,"myBody.brep");
-    
-    
-    /* Make a topological face from the spline surface */
-    BRepBuilderAPI_MakeFace FaceMaker(C, 0.0, 1, 0.0, 1, 1.0e-7);
-    if (!FaceMaker.IsDone()) {
-        std::cout << "FaceMaker Error " << FaceMaker.Error() << std::endl;
-    }
-    
-    TopoDS_Face F = FaceMaker.Face();
-    
-    /* Write brep file */
-    BRepTools::Write(F,(destinationFolder +"/spline.brep").c_str());
-    
-    return;
-}
-
-void outputSpline2D(const std::string filename, int nPtsU, int nPtsV, Handle(Geom_BSplineSurface) const C) {
+void outputBSplineSurface(const std::string filename, int nPtsU, int nPtsV, Handle(Geom_BSplineSurface) const C) {
     Standard_Real U1,U2,V1,V2;
     C->Bounds (U1, U2, V1, V2);
     

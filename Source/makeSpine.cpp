@@ -88,7 +88,7 @@ void makeTrackSpine(std::string const sourceFolder, std::string const destinatio
     
     /* Make spine of track */
     makeSpine(arcLength,points,C);
-    outputSpline1D(destinationFolder +"/track_test_pts.txt", nPoints, C);
+    outputBSplineCurve(destinationFolder +"/track_spine_pts.txt", nPoints, C);
 }
 
 void makeSpine(const std::vector<double>& arcLength, const std::vector<gp_Pnt>& points, Handle(Geom_BSplineCurve)& C) {
@@ -113,7 +113,7 @@ void makeSpine(const std::vector<double>& arcLength, const std::vector<gp_Pnt>& 
     C = Interp.Curve();
 }
 
-void outputSpline1D(const std::string filename, int nPts, Handle(const Geom_BSplineCurve) const C) {
+void outputBSplineCurve(const std::string filename, int nPts, Handle(const Geom_BSplineCurve) const C) {
     /* Test track curve */
     Standard_Real sBgn = C->FirstParameter();
     Standard_Real sEnd = C->LastParameter();
