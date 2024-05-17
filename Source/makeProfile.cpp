@@ -689,7 +689,7 @@ void convertProfiles2BRep(std::string const sourceFolder) {
     }
 }
 
-void wireToPoints(TopoDS_Wire aWire, int nPts) {
+void wireToPoints(TopoDS_Wire aWire, int nPts, TColgp_Array1OfPnt& profilePoints) {
     /* Playing around with this */
     
     TopoDS_Edge anEdge;
@@ -734,25 +734,24 @@ void wireToPoints(TopoDS_Wire aWire, int nPts) {
     Standard_Real begin, end = 1.0;
     gp_Pnt pnt;
     Handle(Geom_Curve) aCurve;
+    int pntCount = 1;
     for(;edgeExplorer.More();edgeExplorer.Next()){
         anEdge = TopoDS::Edge(edgeExplorer.Current());
         aCurve = BRep_Tool::Curve(anEdge, begin, end);
-        double du = (begin-end)/ptsArray[edgeCounter];
+        double du = (end-begin)/ptsArray[edgeCounter];
         for (int i=0;i<ptsArray[edgeCounter];++i) {
             Standard_Real U1 = i*du +begin;
             aCurve->D0(U1,pnt);
-            std::cout << pnt.X() << ' ' << pnt.Y() << std::endl;
+            profilePoints.SetValue(pntCount++,pnt);
+//            std::cout << U1 << ' ' << pnt.X() << ' ' << pnt.Y() << ' ' << pnt.Z() << std::endl;
         }
         ++edgeCounter;
     }
     /* Add Last Point */
     aCurve->D0(end,pnt);
-    std::cout << pnt.X() << ' ' << pnt.Y() << std::endl;
+    profilePoints.SetValue(pntCount++,pnt);
+//    std::cout << end << ' ' << pnt.X() << ' ' << pnt.Y() << ' ' << pnt.Z() << std::endl;
 
-    
-    
-    
-//    TopoDS_Wire
 //    BRepAdaptor_CompCurve myComposite(aWire);
 //    Standard_Real U1 = myComposite.FirstParameter();
 //    Standard_Real U2 = myComposite.LastParameter();
@@ -763,7 +762,7 @@ void wireToPoints(TopoDS_Wire aWire, int nPts) {
 //        Standard_Real U = U1 +du*i;
 //        gp_Vec aVec;
 //        myComposite.D1(U,aPnt,aVec);
-//        std::cout << aPnt.X() << ' ' << aPnt.Y() << ' ' << aPnt.Z() << std::endl;
+//        std::cout << "comp " << U << ' ' << aPnt.X() << ' ' << aPnt.Y() << ' ' << aPnt.Z() << std::endl;
 //    }
 /*    You can use the class BRepAdaptor_CompCurve if the interface of Adaptor3d_Curve is sufficient for you. If you need the real Geom_Curve then you have to approximate CompCurve into bspline using available approximation tool (e.g. AdvApprox_ApproxAFunction, see GeomLib::BuildCurve3d). */
 

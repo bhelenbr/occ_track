@@ -12,6 +12,8 @@
 #include <vector>
 #include <Geom_BSplineSurface.hxx>
 #include <Geom_BSplineCurve.hxx>
+#include <TopoDS_Wire.hxx>
+
 #include <iostream>
 
 /* Routine to make spline of track spine & output*/
@@ -26,9 +28,10 @@ struct profileData {
     int BRK;
 };
 void loadProfileData(std::string const filename, std::vector<profileData>& profiles);
-void makeTrackLoft(std::string const sourceFolder, std::string const destinationFolder);
-void makeTrackSpline2D(std::string const sourceFolder, std::string const destinationFolder);
+void makeTrackLoft(std::string const sourceFolder, std::string const destinationFolder, double scale);
+void makeTrackSpline2D(std::string const sourceFolder, std::string const destinationFolder, double scale);
 void makeStraightSpline2D(std::string const destinationFolder);
+void offsetSurface(std::string input, std::string output, double distance);
 void outputSpline2D(const std::string filename, int nPtsU, int nPtsV, Handle(Geom_BSplineSurface) const C);
 
 /* Routines to make cross-sections profiles and manipulate*/
@@ -39,7 +42,7 @@ void makeCurveTransitionProfile(std::string const filename, std::string const Di
 void makeCurveProfile(std::string const filename, std::string const Dir, double A, double B, double HZ, double WZ, double KH, double BW, double R2, double BH, double B1, double Rr, double CE);
 void convertProfiles2BRep(std::string const sourceFolder);
 void step2BRep(std::string const filename);
-
+void wireToPoints(TopoDS_Wire aWire, int nPts, TColgp_Array1OfPnt& profilePoints);
 
 /* Routines to calculate trajectory down track */
 void timeIntegrate(std::string destinationFolder, Handle(Geom_BSplineSurface const) const trackSurface);
