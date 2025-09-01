@@ -10,7 +10,7 @@
 
 int main(int argc, char **argv) {
     
-    enum location {StraightTrack,LakePlacid,Sochi,ParkCity};
+    enum location {StraightTrack,LakePlacid,Sochi,ParkCity,ParkCityNoEntries};
     enum operation {loft,BSpline,convertProfiles,createProfiles};
     
     location myLocation;
@@ -18,6 +18,7 @@ int main(int argc, char **argv) {
     myLocation = LakePlacid;
     myLocation = Sochi;
     myLocation = ParkCity;
+    myLocation = ParkCityNoEntries;
 
     operation myOp;
     myOp = createProfiles;
@@ -28,7 +29,14 @@ int main(int argc, char **argv) {
     double offset;  // Offset from defined surface to top of ice surface
     double scale; // scaling factor for profiles
     std::string Folder;
-
+    
+    /* to update include file list cd /opt/homebrew/include/opencascade and ls */
+    /* and library names cd /opt/homebrew/lib and ls libTK* | grep -v 7.9 */
+    
+    /* The makeTrack<Loft,BSpline> routines calls makeTrackSpine to load the file <source folder>/track.txt and use it to make the spine of the track using the routine makeSpine.  makeSpineTrack then outputs points on the spine curve to the file "<destination folder>/track_spine_pts.txt" makeTrackXXX then opens the profile brep curves which are at the location specified in the file <source folder>/profiles.txt.  It outputs two files:  <destinationFolder>/theTrack.brep and <destinationFolder>/track_surface_pts.txt.  The routine offset surface loads the track file and then offsets a surface and outputs a brep file "withice.brep" and a surface definition withice.txt".  It finally calls timeIntegrate to calculate a gravity path, but it doesn't let V change do that is kind of funky.  This ouputs a file called <destination folder>/path.txt */
+    
+    /* The makeProfile routine reads the input file (typically <Folder>/provile.csv and for every line in that file creates a profile called Profiles/XX.brep where XX is the arc location with an ending describing the type of profile and whether it is left or right. It then outputs a file <Destination Folder>/profiles.txt that contains a list of locations and filenames  */
+    
     switch(myLocation) {
         case(StraightTrack): {
             offset = -0.03;
@@ -49,9 +57,17 @@ int main(int argc, char **argv) {
             break;
         }
         case(ParkCity): {
+            /* The file profiledata_luge.csv is the men's luge start I think not used currently */
             offset = -1.5*2.54/100;  // From Jon Owen
             scale = 0.001;
             Folder = "TrackData_ParkCity";
+            break;
+        }
+        case(ParkCityNoEntries): {
+            /* The file profiledata_luge.csv is the men's luge start I think not used currently */
+            offset = -1.5*2.54/100;  // From Jon Owen
+            scale = 0.001;
+            Folder = "TrackData_ParkCity_noentries";
             break;
         }
     }
@@ -59,12 +75,12 @@ int main(int argc, char **argv) {
     switch (myOp) {
         case(loft): {
             makeTrackLoft(Folder, Folder +"/Results",scale);
-            offsetSurface(Folder +"/Results/theTrack.brep",Folder +"/Results/withIce.brep", offset);
+            offsetSurface(Folder +"/Results/theTrack.brep",Folder +"/Results/withIce", offset);
             break;
         }
         case(BSpline): {
             makeTrackBSpline(Folder, Folder +"/Results",scale);
-            offsetSurface(Folder +"/Results/theTrack.brep",Folder +"/Results/withIce.brep", offset);
+            offsetSurface(Folder +"/Results/theTrack.brep",Folder +"/Results/withIce", offset);
             break;
         }
         case(convertProfiles): {

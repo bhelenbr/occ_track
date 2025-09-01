@@ -11,68 +11,6 @@
 		E636B9E22BE6FF99002C1F22 /* makeProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E636B9E12BE6FF99002C1F22 /* makeProfile.cpp */; };
 		E6B3E4832BD9F3100060A707 /* makeSpine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6B3E4812BD9F3100060A707 /* makeSpine.cpp */; };
 		E6B3E4842BD9F3100060A707 /* timeDeriv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6B3E4822BD9F3100060A707 /* timeDeriv.cpp */; };
-		E6B3E4C42BD9F5810060A707 /* libTKQADraw.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4862BD9F5800060A707 /* libTKQADraw.7.7.2.dylib */; };
-		E6B3E4C52BD9F5810060A707 /* libTKBinL.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4872BD9F5800060A707 /* libTKBinL.7.7.2.dylib */; };
-		E6B3E4C62BD9F5810060A707 /* libTKXDE.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4882BD9F5800060A707 /* libTKXDE.7.7.2.dylib */; };
-		E6B3E4C72BD9F5810060A707 /* libTKVCAF.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4892BD9F5800060A707 /* libTKVCAF.7.7.2.dylib */; };
-		E6B3E4C82BD9F5810060A707 /* libTKXmlTObj.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E48A2BD9F5800060A707 /* libTKXmlTObj.7.7.2.dylib */; };
-		E6B3E4C92BD9F5810060A707 /* libTKBinTObj.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E48B2BD9F5800060A707 /* libTKBinTObj.7.7.2.dylib */; };
-		E6B3E4CA2BD9F5810060A707 /* libTKStd.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E48C2BD9F5800060A707 /* libTKStd.7.7.2.dylib */; };
-		E6B3E4CB2BD9F5810060A707 /* libTKG3d.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E48D2BD9F5800060A707 /* libTKG3d.7.7.2.dylib */; };
-		E6B3E4CC2BD9F5810060A707 /* libTKOffset.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E48E2BD9F5800060A707 /* libTKOffset.7.7.2.dylib */; };
-		E6B3E4CD2BD9F5810060A707 /* libTKSTL.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E48F2BD9F5800060A707 /* libTKSTL.7.7.2.dylib */; };
-		E6B3E4CE2BD9F5810060A707 /* libTKSTEP209.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4902BD9F5800060A707 /* libTKSTEP209.7.7.2.dylib */; };
-		E6B3E4CF2BD9F5810060A707 /* libTKTopAlgo.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4912BD9F5800060A707 /* libTKTopAlgo.7.7.2.dylib */; };
-		E6B3E4D02BD9F5810060A707 /* libTKXml.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4922BD9F5800060A707 /* libTKXml.7.7.2.dylib */; };
-		E6B3E4D12BD9F5810060A707 /* libTKBO.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4932BD9F5800060A707 /* libTKBO.7.7.2.dylib */; };
-		E6B3E4D22BD9F5810060A707 /* libTKDraw.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4942BD9F5800060A707 /* libTKDraw.7.7.2.dylib */; };
-		E6B3E4D32BD9F5810060A707 /* libTKGeomBase.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4952BD9F5800060A707 /* libTKGeomBase.7.7.2.dylib */; };
-		E6B3E4D42BD9F5810060A707 /* libTKBin.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4962BD9F5800060A707 /* libTKBin.7.7.2.dylib */; };
-		E6B3E4D52BD9F5810060A707 /* libTKSTEPAttr.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4972BD9F5800060A707 /* libTKSTEPAttr.7.7.2.dylib */; };
-		E6B3E4D62BD9F5810060A707 /* libTKGeomAlgo.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4982BD9F5800060A707 /* libTKGeomAlgo.7.7.2.dylib */; };
-		E6B3E4D72BD9F5810060A707 /* libTKShHealing.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4992BD9F5800060A707 /* libTKShHealing.7.7.2.dylib */; };
-		E6B3E4D82BD9F5810060A707 /* libTKV3d.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E49A2BD9F5800060A707 /* libTKV3d.7.7.2.dylib */; };
-		E6B3E4D92BD9F5810060A707 /* libTKLCAF.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E49B2BD9F5800060A707 /* libTKLCAF.7.7.2.dylib */; };
-		E6B3E4DA2BD9F5810060A707 /* libTKernel.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E49C2BD9F5800060A707 /* libTKernel.7.7.2.dylib */; };
-		E6B3E4DB2BD9F5810060A707 /* libTKXDECascade.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E49D2BD9F5800060A707 /* libTKXDECascade.7.7.2.dylib */; };
-		E6B3E4DC2BD9F5810060A707 /* libTKVRML.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E49E2BD9F5800060A707 /* libTKVRML.7.7.2.dylib */; };
-		E6B3E4DD2BD9F5810060A707 /* libTKXDEIGES.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E49F2BD9F5800060A707 /* libTKXDEIGES.7.7.2.dylib */; };
-		E6B3E4DE2BD9F5810060A707 /* libTKExpress.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4A02BD9F5800060A707 /* libTKExpress.7.7.2.dylib */; };
-		E6B3E4DF2BD9F5810060A707 /* libTKPrim.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4A12BD9F5800060A707 /* libTKPrim.7.7.2.dylib */; };
-		E6B3E4E02BD9F5810060A707 /* libTKStdL.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4A22BD9F5800060A707 /* libTKStdL.7.7.2.dylib */; };
-		E6B3E4E12BD9F5810060A707 /* libTKOpenGlTest.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4A32BD9F5800060A707 /* libTKOpenGlTest.7.7.2.dylib */; };
-		E6B3E4E22BD9F5810060A707 /* libTKBinXCAF.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4A42BD9F5800060A707 /* libTKBinXCAF.7.7.2.dylib */; };
-		E6B3E4E32BD9F5810060A707 /* libTKSTEPBase.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4A52BD9F5800060A707 /* libTKSTEPBase.7.7.2.dylib */; };
-		E6B3E4E42BD9F5810060A707 /* libTKFeat.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4A62BD9F5800060A707 /* libTKFeat.7.7.2.dylib */; };
-		E6B3E4E52BD9F5810060A707 /* libTKXDEDRAW.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4A72BD9F5800060A707 /* libTKXDEDRAW.7.7.2.dylib */; };
-		E6B3E4E62BD9F5810060A707 /* libTKXCAF.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4A82BD9F5800060A707 /* libTKXCAF.7.7.2.dylib */; };
-		E6B3E4E72BD9F5810060A707 /* libTKG2d.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4A92BD9F5800060A707 /* libTKG2d.7.7.2.dylib */; };
-		E6B3E4E82BD9F5810060A707 /* libTKBRep.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4AA2BD9F5800060A707 /* libTKBRep.7.7.2.dylib */; };
-		E6B3E4E92BD9F5810060A707 /* libTKMesh.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4AB2BD9F5800060A707 /* libTKMesh.7.7.2.dylib */; };
-		E6B3E4EA2BD9F5810060A707 /* libTKMath.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4AC2BD9F5800060A707 /* libTKMath.7.7.2.dylib */; };
-		E6B3E4EB2BD9F5810060A707 /* libTKXmlXCAF.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4AD2BD9F5800060A707 /* libTKXmlXCAF.7.7.2.dylib */; };
-		E6B3E4EC2BD9F5810060A707 /* libTKFillet.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4AE2BD9F5800060A707 /* libTKFillet.7.7.2.dylib */; };
-		E6B3E4ED2BD9F5810060A707 /* libTKTopTest.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4AF2BD9F5800060A707 /* libTKTopTest.7.7.2.dylib */; };
-		E6B3E4EE2BD9F5810060A707 /* libTKSTEP.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4B02BD9F5800060A707 /* libTKSTEP.7.7.2.dylib */; };
-		E6B3E4EF2BD9F5810060A707 /* libTKViewerTest.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4B12BD9F5800060A707 /* libTKViewerTest.7.7.2.dylib */; };
-		E6B3E4F02BD9F5810060A707 /* libTKMeshVS.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4B22BD9F5800060A707 /* libTKMeshVS.7.7.2.dylib */; };
-		E6B3E4F12BD9F5810060A707 /* libTKDCAF.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4B32BD9F5800060A707 /* libTKDCAF.7.7.2.dylib */; };
-		E6B3E4F22BD9F5810060A707 /* libTKTObjDRAW.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4B42BD9F5800060A707 /* libTKTObjDRAW.7.7.2.dylib */; };
-		E6B3E4F32BD9F5810060A707 /* libTKOpenGl.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4B52BD9F5800060A707 /* libTKOpenGl.7.7.2.dylib */; };
-		E6B3E4F42BD9F5810060A707 /* libTKCAF.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4B62BD9F5810060A707 /* libTKCAF.7.7.2.dylib */; };
-		E6B3E4F52BD9F5810060A707 /* libTKService.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4B72BD9F5810060A707 /* libTKService.7.7.2.dylib */; };
-		E6B3E4F62BD9F5810060A707 /* libTKTObj.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4B82BD9F5810060A707 /* libTKTObj.7.7.2.dylib */; };
-		E6B3E4F72BD9F5810060A707 /* libtkstub8.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4B92BD9F5810060A707 /* libtkstub8.6.a */; };
-		E6B3E4F82BD9F5810060A707 /* libTKXmlL.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4BA2BD9F5810060A707 /* libTKXmlL.7.7.2.dylib */; };
-		E6B3E4F92BD9F5810060A707 /* libTKXSDRAW.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4BB2BD9F5810060A707 /* libTKXSDRAW.7.7.2.dylib */; };
-		E6B3E4FA2BD9F5810060A707 /* libTKXMesh.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4BC2BD9F5810060A707 /* libTKXMesh.7.7.2.dylib */; };
-		E6B3E4FB2BD9F5810060A707 /* libTKXDESTEP.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4BD2BD9F5810060A707 /* libTKXDESTEP.7.7.2.dylib */; };
-		E6B3E4FC2BD9F5810060A707 /* libTKIGES.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4BE2BD9F5810060A707 /* libTKIGES.7.7.2.dylib */; };
-		E6B3E4FD2BD9F5810060A707 /* libTKBool.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4BF2BD9F5810060A707 /* libTKBool.7.7.2.dylib */; };
-		E6B3E4FE2BD9F5810060A707 /* libTKXSBase.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4C02BD9F5810060A707 /* libTKXSBase.7.7.2.dylib */; };
-		E6B3E4FF2BD9F5810060A707 /* libTKCDF.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4C12BD9F5810060A707 /* libTKCDF.7.7.2.dylib */; };
-		E6B3E5002BD9F5810060A707 /* libTKRWMesh.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4C22BD9F5810060A707 /* libTKRWMesh.7.7.2.dylib */; };
-		E6B3E5012BD9F5810060A707 /* libTKHLR.7.7.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B3E4C32BD9F5810060A707 /* libTKHLR.7.7.2.dylib */; };
 		E6F8417B2BDB3B3500EF1A7E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6F841792BDB3B3500EF1A7E /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -95,68 +33,6 @@
 		E6B3E4802BD9F3100060A707 /* occ_track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = occ_track.h; sourceTree = "<group>"; };
 		E6B3E4812BD9F3100060A707 /* makeSpine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = makeSpine.cpp; sourceTree = "<group>"; };
 		E6B3E4822BD9F3100060A707 /* timeDeriv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timeDeriv.cpp; sourceTree = "<group>"; };
-		E6B3E4862BD9F5800060A707 /* libTKQADraw.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKQADraw.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKQADraw.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4872BD9F5800060A707 /* libTKBinL.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKBinL.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKBinL.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4882BD9F5800060A707 /* libTKXDE.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXDE.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXDE.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4892BD9F5800060A707 /* libTKVCAF.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKVCAF.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKVCAF.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E48A2BD9F5800060A707 /* libTKXmlTObj.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXmlTObj.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXmlTObj.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E48B2BD9F5800060A707 /* libTKBinTObj.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKBinTObj.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKBinTObj.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E48C2BD9F5800060A707 /* libTKStd.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKStd.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKStd.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E48D2BD9F5800060A707 /* libTKG3d.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKG3d.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKG3d.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E48E2BD9F5800060A707 /* libTKOffset.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKOffset.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKOffset.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E48F2BD9F5800060A707 /* libTKSTL.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKSTL.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKSTL.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4902BD9F5800060A707 /* libTKSTEP209.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKSTEP209.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKSTEP209.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4912BD9F5800060A707 /* libTKTopAlgo.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKTopAlgo.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKTopAlgo.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4922BD9F5800060A707 /* libTKXml.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXml.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXml.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4932BD9F5800060A707 /* libTKBO.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKBO.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKBO.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4942BD9F5800060A707 /* libTKDraw.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKDraw.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKDraw.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4952BD9F5800060A707 /* libTKGeomBase.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKGeomBase.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKGeomBase.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4962BD9F5800060A707 /* libTKBin.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKBin.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKBin.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4972BD9F5800060A707 /* libTKSTEPAttr.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKSTEPAttr.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKSTEPAttr.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4982BD9F5800060A707 /* libTKGeomAlgo.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKGeomAlgo.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKGeomAlgo.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4992BD9F5800060A707 /* libTKShHealing.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKShHealing.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKShHealing.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E49A2BD9F5800060A707 /* libTKV3d.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKV3d.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKV3d.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E49B2BD9F5800060A707 /* libTKLCAF.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKLCAF.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKLCAF.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E49C2BD9F5800060A707 /* libTKernel.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKernel.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKernel.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E49D2BD9F5800060A707 /* libTKXDECascade.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXDECascade.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXDECascade.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E49E2BD9F5800060A707 /* libTKVRML.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKVRML.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKVRML.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E49F2BD9F5800060A707 /* libTKXDEIGES.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXDEIGES.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXDEIGES.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4A02BD9F5800060A707 /* libTKExpress.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKExpress.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKExpress.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4A12BD9F5800060A707 /* libTKPrim.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKPrim.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKPrim.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4A22BD9F5800060A707 /* libTKStdL.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKStdL.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKStdL.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4A32BD9F5800060A707 /* libTKOpenGlTest.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKOpenGlTest.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKOpenGlTest.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4A42BD9F5800060A707 /* libTKBinXCAF.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKBinXCAF.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKBinXCAF.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4A52BD9F5800060A707 /* libTKSTEPBase.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKSTEPBase.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKSTEPBase.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4A62BD9F5800060A707 /* libTKFeat.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKFeat.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKFeat.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4A72BD9F5800060A707 /* libTKXDEDRAW.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXDEDRAW.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXDEDRAW.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4A82BD9F5800060A707 /* libTKXCAF.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXCAF.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXCAF.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4A92BD9F5800060A707 /* libTKG2d.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKG2d.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKG2d.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4AA2BD9F5800060A707 /* libTKBRep.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKBRep.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKBRep.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4AB2BD9F5800060A707 /* libTKMesh.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKMesh.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKMesh.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4AC2BD9F5800060A707 /* libTKMath.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKMath.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKMath.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4AD2BD9F5800060A707 /* libTKXmlXCAF.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXmlXCAF.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXmlXCAF.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4AE2BD9F5800060A707 /* libTKFillet.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKFillet.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKFillet.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4AF2BD9F5800060A707 /* libTKTopTest.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKTopTest.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKTopTest.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4B02BD9F5800060A707 /* libTKSTEP.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKSTEP.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKSTEP.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4B12BD9F5800060A707 /* libTKViewerTest.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKViewerTest.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKViewerTest.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4B22BD9F5800060A707 /* libTKMeshVS.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKMeshVS.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKMeshVS.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4B32BD9F5800060A707 /* libTKDCAF.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKDCAF.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKDCAF.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4B42BD9F5800060A707 /* libTKTObjDRAW.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKTObjDRAW.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKTObjDRAW.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4B52BD9F5800060A707 /* libTKOpenGl.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKOpenGl.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKOpenGl.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4B62BD9F5810060A707 /* libTKCAF.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKCAF.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKCAF.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4B72BD9F5810060A707 /* libTKService.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKService.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKService.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4B82BD9F5810060A707 /* libTKTObj.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKTObj.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKTObj.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4B92BD9F5810060A707 /* libtkstub8.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtkstub8.6.a; path = "../../../../../../../opt/homebrew/Cellar/tcl-tk/8.6.14/lib/libtkstub8.6.a"; sourceTree = "<group>"; };
-		E6B3E4BA2BD9F5810060A707 /* libTKXmlL.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXmlL.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXmlL.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4BB2BD9F5810060A707 /* libTKXSDRAW.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXSDRAW.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXSDRAW.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4BC2BD9F5810060A707 /* libTKXMesh.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXMesh.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXMesh.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4BD2BD9F5810060A707 /* libTKXDESTEP.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXDESTEP.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXDESTEP.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4BE2BD9F5810060A707 /* libTKIGES.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKIGES.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKIGES.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4BF2BD9F5810060A707 /* libTKBool.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKBool.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKBool.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4C02BD9F5810060A707 /* libTKXSBase.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKXSBase.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKXSBase.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4C12BD9F5810060A707 /* libTKCDF.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKCDF.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKCDF.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4C22BD9F5810060A707 /* libTKRWMesh.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKRWMesh.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKRWMesh.7.7.2.dylib; sourceTree = "<group>"; };
-		E6B3E4C32BD9F5810060A707 /* libTKHLR.7.7.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libTKHLR.7.7.2.dylib; path = ../../../../../../../opt/homebrew/Cellar/opencascade/7.7.2_4/lib/libTKHLR.7.7.2.dylib; sourceTree = "<group>"; };
 		E6F841792BDB3B3500EF1A7E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,68 +41,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6B3E4C42BD9F5810060A707 /* libTKQADraw.7.7.2.dylib in Frameworks */,
-				E6B3E4C52BD9F5810060A707 /* libTKBinL.7.7.2.dylib in Frameworks */,
-				E6B3E4C62BD9F5810060A707 /* libTKXDE.7.7.2.dylib in Frameworks */,
-				E6B3E4C72BD9F5810060A707 /* libTKVCAF.7.7.2.dylib in Frameworks */,
-				E6B3E4C82BD9F5810060A707 /* libTKXmlTObj.7.7.2.dylib in Frameworks */,
-				E6B3E4C92BD9F5810060A707 /* libTKBinTObj.7.7.2.dylib in Frameworks */,
-				E6B3E4CA2BD9F5810060A707 /* libTKStd.7.7.2.dylib in Frameworks */,
-				E6B3E4CB2BD9F5810060A707 /* libTKG3d.7.7.2.dylib in Frameworks */,
-				E6B3E4CC2BD9F5810060A707 /* libTKOffset.7.7.2.dylib in Frameworks */,
-				E6B3E4CD2BD9F5810060A707 /* libTKSTL.7.7.2.dylib in Frameworks */,
-				E6B3E4CE2BD9F5810060A707 /* libTKSTEP209.7.7.2.dylib in Frameworks */,
-				E6B3E4CF2BD9F5810060A707 /* libTKTopAlgo.7.7.2.dylib in Frameworks */,
-				E6B3E4D02BD9F5810060A707 /* libTKXml.7.7.2.dylib in Frameworks */,
-				E6B3E4D12BD9F5810060A707 /* libTKBO.7.7.2.dylib in Frameworks */,
-				E6B3E4D22BD9F5810060A707 /* libTKDraw.7.7.2.dylib in Frameworks */,
-				E6B3E4D32BD9F5810060A707 /* libTKGeomBase.7.7.2.dylib in Frameworks */,
-				E6B3E4D42BD9F5810060A707 /* libTKBin.7.7.2.dylib in Frameworks */,
-				E6B3E4D52BD9F5810060A707 /* libTKSTEPAttr.7.7.2.dylib in Frameworks */,
-				E6B3E4D62BD9F5810060A707 /* libTKGeomAlgo.7.7.2.dylib in Frameworks */,
-				E6B3E4D72BD9F5810060A707 /* libTKShHealing.7.7.2.dylib in Frameworks */,
-				E6B3E4D82BD9F5810060A707 /* libTKV3d.7.7.2.dylib in Frameworks */,
-				E6B3E4D92BD9F5810060A707 /* libTKLCAF.7.7.2.dylib in Frameworks */,
-				E6B3E4DA2BD9F5810060A707 /* libTKernel.7.7.2.dylib in Frameworks */,
-				E6B3E4DB2BD9F5810060A707 /* libTKXDECascade.7.7.2.dylib in Frameworks */,
-				E6B3E4DC2BD9F5810060A707 /* libTKVRML.7.7.2.dylib in Frameworks */,
-				E6B3E4DD2BD9F5810060A707 /* libTKXDEIGES.7.7.2.dylib in Frameworks */,
-				E6B3E4DE2BD9F5810060A707 /* libTKExpress.7.7.2.dylib in Frameworks */,
-				E6B3E4DF2BD9F5810060A707 /* libTKPrim.7.7.2.dylib in Frameworks */,
-				E6B3E4E02BD9F5810060A707 /* libTKStdL.7.7.2.dylib in Frameworks */,
-				E6B3E4E12BD9F5810060A707 /* libTKOpenGlTest.7.7.2.dylib in Frameworks */,
-				E6B3E4E22BD9F5810060A707 /* libTKBinXCAF.7.7.2.dylib in Frameworks */,
-				E6B3E4E32BD9F5810060A707 /* libTKSTEPBase.7.7.2.dylib in Frameworks */,
-				E6B3E4E42BD9F5810060A707 /* libTKFeat.7.7.2.dylib in Frameworks */,
-				E6B3E4E52BD9F5810060A707 /* libTKXDEDRAW.7.7.2.dylib in Frameworks */,
-				E6B3E4E62BD9F5810060A707 /* libTKXCAF.7.7.2.dylib in Frameworks */,
-				E6B3E4E72BD9F5810060A707 /* libTKG2d.7.7.2.dylib in Frameworks */,
-				E6B3E4E82BD9F5810060A707 /* libTKBRep.7.7.2.dylib in Frameworks */,
-				E6B3E4E92BD9F5810060A707 /* libTKMesh.7.7.2.dylib in Frameworks */,
-				E6B3E4EA2BD9F5810060A707 /* libTKMath.7.7.2.dylib in Frameworks */,
-				E6B3E4EB2BD9F5810060A707 /* libTKXmlXCAF.7.7.2.dylib in Frameworks */,
-				E6B3E4EC2BD9F5810060A707 /* libTKFillet.7.7.2.dylib in Frameworks */,
-				E6B3E4ED2BD9F5810060A707 /* libTKTopTest.7.7.2.dylib in Frameworks */,
-				E6B3E4EE2BD9F5810060A707 /* libTKSTEP.7.7.2.dylib in Frameworks */,
-				E6B3E4EF2BD9F5810060A707 /* libTKViewerTest.7.7.2.dylib in Frameworks */,
-				E6B3E4F02BD9F5810060A707 /* libTKMeshVS.7.7.2.dylib in Frameworks */,
-				E6B3E4F12BD9F5810060A707 /* libTKDCAF.7.7.2.dylib in Frameworks */,
-				E6B3E4F22BD9F5810060A707 /* libTKTObjDRAW.7.7.2.dylib in Frameworks */,
-				E6B3E4F32BD9F5810060A707 /* libTKOpenGl.7.7.2.dylib in Frameworks */,
-				E6B3E4F42BD9F5810060A707 /* libTKCAF.7.7.2.dylib in Frameworks */,
-				E6B3E4F52BD9F5810060A707 /* libTKService.7.7.2.dylib in Frameworks */,
-				E6B3E4F62BD9F5810060A707 /* libTKTObj.7.7.2.dylib in Frameworks */,
-				E6B3E4F72BD9F5810060A707 /* libtkstub8.6.a in Frameworks */,
-				E6B3E4F82BD9F5810060A707 /* libTKXmlL.7.7.2.dylib in Frameworks */,
-				E6B3E4F92BD9F5810060A707 /* libTKXSDRAW.7.7.2.dylib in Frameworks */,
-				E6B3E4FA2BD9F5810060A707 /* libTKXMesh.7.7.2.dylib in Frameworks */,
-				E6B3E4FB2BD9F5810060A707 /* libTKXDESTEP.7.7.2.dylib in Frameworks */,
-				E6B3E4FC2BD9F5810060A707 /* libTKIGES.7.7.2.dylib in Frameworks */,
-				E6B3E4FD2BD9F5810060A707 /* libTKBool.7.7.2.dylib in Frameworks */,
-				E6B3E4FE2BD9F5810060A707 /* libTKXSBase.7.7.2.dylib in Frameworks */,
-				E6B3E4FF2BD9F5810060A707 /* libTKCDF.7.7.2.dylib in Frameworks */,
-				E6B3E5002BD9F5810060A707 /* libTKRWMesh.7.7.2.dylib in Frameworks */,
-				E6B3E5012BD9F5810060A707 /* libTKHLR.7.7.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,68 +80,6 @@
 		E6B3E4852BD9F5800060A707 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E6B3E4962BD9F5800060A707 /* libTKBin.7.7.2.dylib */,
-				E6B3E4872BD9F5800060A707 /* libTKBinL.7.7.2.dylib */,
-				E6B3E48B2BD9F5800060A707 /* libTKBinTObj.7.7.2.dylib */,
-				E6B3E4A42BD9F5800060A707 /* libTKBinXCAF.7.7.2.dylib */,
-				E6B3E4932BD9F5800060A707 /* libTKBO.7.7.2.dylib */,
-				E6B3E4BF2BD9F5810060A707 /* libTKBool.7.7.2.dylib */,
-				E6B3E4AA2BD9F5800060A707 /* libTKBRep.7.7.2.dylib */,
-				E6B3E4B62BD9F5810060A707 /* libTKCAF.7.7.2.dylib */,
-				E6B3E4C12BD9F5810060A707 /* libTKCDF.7.7.2.dylib */,
-				E6B3E4B32BD9F5800060A707 /* libTKDCAF.7.7.2.dylib */,
-				E6B3E4942BD9F5800060A707 /* libTKDraw.7.7.2.dylib */,
-				E6B3E49C2BD9F5800060A707 /* libTKernel.7.7.2.dylib */,
-				E6B3E4A02BD9F5800060A707 /* libTKExpress.7.7.2.dylib */,
-				E6B3E4A62BD9F5800060A707 /* libTKFeat.7.7.2.dylib */,
-				E6B3E4AE2BD9F5800060A707 /* libTKFillet.7.7.2.dylib */,
-				E6B3E4A92BD9F5800060A707 /* libTKG2d.7.7.2.dylib */,
-				E6B3E48D2BD9F5800060A707 /* libTKG3d.7.7.2.dylib */,
-				E6B3E4982BD9F5800060A707 /* libTKGeomAlgo.7.7.2.dylib */,
-				E6B3E4952BD9F5800060A707 /* libTKGeomBase.7.7.2.dylib */,
-				E6B3E4C32BD9F5810060A707 /* libTKHLR.7.7.2.dylib */,
-				E6B3E4BE2BD9F5810060A707 /* libTKIGES.7.7.2.dylib */,
-				E6B3E49B2BD9F5800060A707 /* libTKLCAF.7.7.2.dylib */,
-				E6B3E4AC2BD9F5800060A707 /* libTKMath.7.7.2.dylib */,
-				E6B3E4AB2BD9F5800060A707 /* libTKMesh.7.7.2.dylib */,
-				E6B3E4B22BD9F5800060A707 /* libTKMeshVS.7.7.2.dylib */,
-				E6B3E48E2BD9F5800060A707 /* libTKOffset.7.7.2.dylib */,
-				E6B3E4B52BD9F5800060A707 /* libTKOpenGl.7.7.2.dylib */,
-				E6B3E4A32BD9F5800060A707 /* libTKOpenGlTest.7.7.2.dylib */,
-				E6B3E4A12BD9F5800060A707 /* libTKPrim.7.7.2.dylib */,
-				E6B3E4862BD9F5800060A707 /* libTKQADraw.7.7.2.dylib */,
-				E6B3E4C22BD9F5810060A707 /* libTKRWMesh.7.7.2.dylib */,
-				E6B3E4B72BD9F5810060A707 /* libTKService.7.7.2.dylib */,
-				E6B3E4992BD9F5800060A707 /* libTKShHealing.7.7.2.dylib */,
-				E6B3E48C2BD9F5800060A707 /* libTKStd.7.7.2.dylib */,
-				E6B3E4A22BD9F5800060A707 /* libTKStdL.7.7.2.dylib */,
-				E6B3E4B02BD9F5800060A707 /* libTKSTEP.7.7.2.dylib */,
-				E6B3E4902BD9F5800060A707 /* libTKSTEP209.7.7.2.dylib */,
-				E6B3E4972BD9F5800060A707 /* libTKSTEPAttr.7.7.2.dylib */,
-				E6B3E4A52BD9F5800060A707 /* libTKSTEPBase.7.7.2.dylib */,
-				E6B3E48F2BD9F5800060A707 /* libTKSTL.7.7.2.dylib */,
-				E6B3E4B92BD9F5810060A707 /* libtkstub8.6.a */,
-				E6B3E4B82BD9F5810060A707 /* libTKTObj.7.7.2.dylib */,
-				E6B3E4B42BD9F5800060A707 /* libTKTObjDRAW.7.7.2.dylib */,
-				E6B3E4912BD9F5800060A707 /* libTKTopAlgo.7.7.2.dylib */,
-				E6B3E4AF2BD9F5800060A707 /* libTKTopTest.7.7.2.dylib */,
-				E6B3E49A2BD9F5800060A707 /* libTKV3d.7.7.2.dylib */,
-				E6B3E4892BD9F5800060A707 /* libTKVCAF.7.7.2.dylib */,
-				E6B3E4B12BD9F5800060A707 /* libTKViewerTest.7.7.2.dylib */,
-				E6B3E49E2BD9F5800060A707 /* libTKVRML.7.7.2.dylib */,
-				E6B3E4A82BD9F5800060A707 /* libTKXCAF.7.7.2.dylib */,
-				E6B3E4882BD9F5800060A707 /* libTKXDE.7.7.2.dylib */,
-				E6B3E49D2BD9F5800060A707 /* libTKXDECascade.7.7.2.dylib */,
-				E6B3E4A72BD9F5800060A707 /* libTKXDEDRAW.7.7.2.dylib */,
-				E6B3E49F2BD9F5800060A707 /* libTKXDEIGES.7.7.2.dylib */,
-				E6B3E4BD2BD9F5810060A707 /* libTKXDESTEP.7.7.2.dylib */,
-				E6B3E4BC2BD9F5810060A707 /* libTKXMesh.7.7.2.dylib */,
-				E6B3E4922BD9F5800060A707 /* libTKXml.7.7.2.dylib */,
-				E6B3E4BA2BD9F5810060A707 /* libTKXmlL.7.7.2.dylib */,
-				E6B3E48A2BD9F5800060A707 /* libTKXmlTObj.7.7.2.dylib */,
-				E6B3E4AD2BD9F5800060A707 /* libTKXmlXCAF.7.7.2.dylib */,
-				E6B3E4C02BD9F5810060A707 /* libTKXSBase.7.7.2.dylib */,
-				E6B3E4BB2BD9F5810060A707 /* libTKXSDRAW.7.7.2.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -452,6 +204,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HOMEBREW = /opt/homebrew;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -507,6 +260,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HOMEBREW = /opt/homebrew;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -520,14 +274,82 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					/opt/homebrew/include/opencascade,
-					/opt/homebrew/include/blitz,
-					/opt/homebrew/include,
+					"${HOMEBREW}/include/opencascade",
+					"${HOMEBREW}/include/blitz",
+					"${HOMEBREW}/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/opt/homebrew/Cellar/opencascade/7.7.2_4/lib,
-					"/opt/homebrew/Cellar/tcl-tk/8.6.14/lib",
+					"${HOMEBREW}/lib",
+				);
+				OTHER_LDFLAGS = (
+					"-lTKBin",
+					"-lTKBinL",
+					"-lTKBinTObj",
+					"-lTKBinXCAF",
+					"-lTKBO",
+					"-lTKBool",
+					"-lTKBRep",
+					"-lTKCAF",
+					"-lTKCDF",
+					"-lTKDCAF",
+					"-lTKDE",
+					"-lTKDECascade",
+					"-lTKDEGLTF",
+					"-lTKDEIGES",
+					"-lTKDEOBJ",
+					"-lTKDEPLY",
+					"-lTKDESTEP",
+					"-lTKDESTL",
+					"-lTKDEVRML",
+					"-lTKDraw",
+					"-lTKernel",
+					"-lTKExpress",
+					"-lTKFeat",
+					"-lTKFillet",
+					"-lTKG2d",
+					"-lTKG3d",
+					"-lTKGeomAlgo",
+					"-lTKGeomBase",
+					"-lTKHLR",
+					"-lTKLCAF",
+					"-lTKMath",
+					"-lTKMesh",
+					"-lTKMeshVS",
+					"-lTKOffset",
+					"-lTKOpenGl",
+					"-lTKOpenGlTest",
+					"-lTKPrim",
+					"-lTKQADraw",
+					"-lTKRWMesh",
+					"-lTKService",
+					"-lTKShHealing",
+					"-lTKStd",
+					"-lTKStdL",
+					"-lTKTObj",
+					"-lTKTObjDRAW",
+					"-lTKTopAlgo",
+					"-lTKTopTest",
+					"-lTKV3d",
+					"-lTKVCAF",
+					"-lTKViewerTest",
+					"-lTKXCAF",
+					"-lTKXDEDRAW",
+					"-lTKXMesh",
+					"-lTKXml",
+					"-lTKXmlL",
+					"-lTKXmlTObj",
+					"-lTKXmlXCAF",
+					"-lTKXSBase",
+					"-lTKXSDRAW",
+					"-lTKXSDRAWDE",
+					"-lTKXSDRAWGLTF",
+					"-lTKXSDRAWIGES",
+					"-lTKXSDRAWOBJ",
+					"-lTKXSDRAWPLY",
+					"-lTKXSDRAWSTEP",
+					"-lTKXSDRAWSTL",
+					"-lTKXSDRAWVRML",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -538,14 +360,82 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					/opt/homebrew/include/opencascade,
-					/opt/homebrew/include/blitz,
-					/opt/homebrew/include,
+					"${HOMEBREW}/include/opencascade",
+					"${HOMEBREW}/include/blitz",
+					"${HOMEBREW}/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/opt/homebrew/Cellar/opencascade/7.7.2_4/lib,
-					"/opt/homebrew/Cellar/tcl-tk/8.6.14/lib",
+					"${HOMEBREW}/lib",
+				);
+				OTHER_LDFLAGS = (
+					"-lTKBin",
+					"-lTKBinL",
+					"-lTKBinTObj",
+					"-lTKBinXCAF",
+					"-lTKBO",
+					"-lTKBool",
+					"-lTKBRep",
+					"-lTKCAF",
+					"-lTKCDF",
+					"-lTKDCAF",
+					"-lTKDE",
+					"-lTKDECascade",
+					"-lTKDEGLTF",
+					"-lTKDEIGES",
+					"-lTKDEOBJ",
+					"-lTKDEPLY",
+					"-lTKDESTEP",
+					"-lTKDESTL",
+					"-lTKDEVRML",
+					"-lTKDraw",
+					"-lTKernel",
+					"-lTKExpress",
+					"-lTKFeat",
+					"-lTKFillet",
+					"-lTKG2d",
+					"-lTKG3d",
+					"-lTKGeomAlgo",
+					"-lTKGeomBase",
+					"-lTKHLR",
+					"-lTKLCAF",
+					"-lTKMath",
+					"-lTKMesh",
+					"-lTKMeshVS",
+					"-lTKOffset",
+					"-lTKOpenGl",
+					"-lTKOpenGlTest",
+					"-lTKPrim",
+					"-lTKQADraw",
+					"-lTKRWMesh",
+					"-lTKService",
+					"-lTKShHealing",
+					"-lTKStd",
+					"-lTKStdL",
+					"-lTKTObj",
+					"-lTKTObjDRAW",
+					"-lTKTopAlgo",
+					"-lTKTopTest",
+					"-lTKV3d",
+					"-lTKVCAF",
+					"-lTKViewerTest",
+					"-lTKXCAF",
+					"-lTKXDEDRAW",
+					"-lTKXMesh",
+					"-lTKXml",
+					"-lTKXmlL",
+					"-lTKXmlTObj",
+					"-lTKXmlXCAF",
+					"-lTKXSBase",
+					"-lTKXSDRAW",
+					"-lTKXSDRAWDE",
+					"-lTKXSDRAWGLTF",
+					"-lTKXSDRAWIGES",
+					"-lTKXSDRAWOBJ",
+					"-lTKXSDRAWPLY",
+					"-lTKXSDRAWSTEP",
+					"-lTKXSDRAWSTL",
+					"-lTKXSDRAWVRML",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

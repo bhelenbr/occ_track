@@ -88,7 +88,7 @@ void makeTrackSpine(std::string const sourceFolder, std::string const destinatio
     
     /* Make spine of track */
     makeSpine(arcLength,points,C);
-    outputBSplineCurve(destinationFolder +"/track_spine_pts.txt", nPoints, C);
+    outputBSplineCurve(destinationFolder, nPoints, C);
 }
 
 void makeSpine(const std::vector<double>& arcLength, const std::vector<gp_Pnt>& points, Handle(Geom_BSplineCurve)& C) {
@@ -113,21 +113,32 @@ void makeSpine(const std::vector<double>& arcLength, const std::vector<gp_Pnt>& 
     C = Interp.Curve();
 }
 
-void outputBSplineCurve(const std::string filename, int nPts, Handle(const Geom_BSplineCurve) const C) {
+void outputBSplineCurve(const std::string destinationFolder, int nPts, Handle(const Geom_BSplineCurve) const C) {
     /* Test track curve */
     Standard_Real sBgn = C->FirstParameter();
     Standard_Real sEnd = C->LastParameter();
     Standard_Real ds = (sEnd-sBgn)/(nPts-1);
     
     std::ofstream track_test;
-    track_test.open(filename);
+    track_test.open(destinationFolder +"/track_spine_pts.txt");
     for (int i=0;i<nPts;++i) {
         double sx = sBgn +ds*i;
         gp_Pnt P;
-        C->D0(sx, P);
-        track_test << P.X() << ' ' << P.Z() << ' ' << -P.Y() << std::endl;
+        gp_Vec T, d2T;
+        C->D2(sx, P, T, d2T);
+#ifdef UNITY
+        track_test << sx << ' ' << P.X() << ' ' << P.Z() << ' ' << -P.Y() << ' ' << T.X() << ' ' << T.Z() << ' ' << -T.Y() << ' ' << d2T.X() << ' ' << d2T.Z() << ' ' <<  -d2T.Y() <<<< std::endl;
+#else
+        track_test << sx << ' ' << P.X() << ' ' << P.Y() << ' ' << P.Z() << ' ' << T.X() << ' ' << T.Y() << ' ' <<  T.Z() << ' ' << d2T.X() << ' ' << d2T.Y() << ' ' <<  d2T.Z() << std::endl;
+#endif
     }
     track_test.close();
+    
+    /* Write spline file */
+    std::ofstream mySplineFile;
+    mySplineFile.open(destinationFolder +"/spine_spline.txt");
+    GeomTools::Write(C,mySplineFile);
+    mySplineFile.close();
 }
 
 void experiments() {

@@ -60,7 +60,7 @@
 
 #include "occ_track.h"
 //#define TEST_PROFILES
-#define UNITY
+//#define UNITY
 
 void loadProfileData(std::string const filename, std::vector<profileData>& profiles) {
     profileData myProfile;
@@ -88,6 +88,41 @@ void transformProfile(Handle(Geom_BSplineCurve) C, double sx, double scale, std:
     if (aWireExplorer.More()) {
         /* If profile is a wire use that */
         aWire = TopoDS::Wire(aWireExplorer.Current());
+
+        /* Check if orientation is correct */
+        BRepAdaptor_CompCurve myComposite(aWire);
+        Standard_Real begin = myComposite.FirstParameter();
+        Standard_Real end = myComposite.LastParameter();
+        gp_Pnt beginPnt = myComposite.Value(begin);
+        gp_Pnt endPnt = myComposite.Value(end);
+        if (beginPnt.X() > endPnt.X()) {
+            /* Need to reverse */
+            TopExp_Explorer edgeExplorer(aWire, TopAbs_EDGE);
+            struct curveData {
+                Handle(Geom_Curve) aCurve;
+                double begin;
+                double end;
+            } cData;
+            std::vector<curveData> storeCurves;
+            for(;edgeExplorer.More();edgeExplorer.Next()){
+                TopoDS_Edge anEdge = TopoDS::Edge(edgeExplorer.Current());
+                cData.aCurve = BRep_Tool::Curve(anEdge, cData.begin, cData.end);
+                storeCurves.push_back(cData);
+            }
+            BRepBuilderAPI_MakeWire mkWire;
+            for (auto riter = storeCurves.rbegin(); riter != storeCurves.rend(); ++riter)
+            {
+                Handle(Geom_Curve) aCurve = riter->aCurve;
+                begin = riter->begin;
+                end = riter->end;
+                begin = aCurve->ReversedParameter(begin);
+                end = aCurve->ReversedParameter(end);
+                TopoDS_Edge anEdge = BRepBuilderAPI_MakeEdge(aCurve->Reversed(), end, begin);
+                mkWire.Add(anEdge);
+            }
+            aWire = mkWire.Wire();
+        }
+        
     }
     else {
         /* Convert profile to wire and use */
@@ -297,14 +332,14 @@ void offsetSurface(std::string input, std::string output, double offset) {
     TopoDS_Face F = FaceMaker.Face();
     
     /* Write brep file */
-    BRepTools::Write(F,output.c_str());
+    std::string brepname = output +".brep";
+    BRepTools::Write(F,brepname.c_str());
   
-//    /* Write surface file */
-//    std::ofstream mySurfaceFile;
-//    mySurfaceFile.open(destinationFolder +"/surface.txt");
-//    GeomTools::Write(trackSurface,mySurfaceFile);
-//    mySurfaceFile.close();
-    
+	/* Write surface file */
+	std::ofstream mySurfaceFile;
+	mySurfaceFile.open(output +".txt");
+	GeomTools::Write(trackSurface,mySurfaceFile);
+	mySurfaceFile.close();
 }
 
 void outputBSplineSurface(const std::string filename, int nPtsU, int nPtsV, Handle(Geom_BSplineSurface) const C) {
