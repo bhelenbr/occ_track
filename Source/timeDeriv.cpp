@@ -85,7 +85,7 @@ void timeIntegrate(std::string destinationFolder, Handle(Geom_BSplineSurface con
 
 	y[0] = U1;	// Beginning of track
 	y[1] = 0.5*(V1+V2); // in the middle
-	y[2] = 27*1000/3600;;  // If U is arc-length then this will be 27 km/h otherwise have to adjust
+	y[2] = 27*1000/3600;  // If U is arc-length then this will be 27 km/h otherwise have to adjust
 	y[3] = 0.0; // No side ways velocity to start
 	
 //	std::cout << U1 << ' ' << U2 << ' ' << V1 << ' ' << V2 << std::endl;
@@ -96,7 +96,7 @@ void timeIntegrate(std::string destinationFolder, Handle(Geom_BSplineSurface con
 	std::ofstream path_file;
 	path_file.open(destinationFolder +"/path.txt");
 	
-	while (y[0] >= U1 && y[0] <= U2) { // && y(1) >= V1 && y(1) <= V2) {
+	while (y[0] <= U2 && y[2] > 0.0) { // && y(1) >= V1 && y(1) <= V2) {
 		y0 = y;
 		timeDeriv(y,k1,trackSurface);
         for (int n=0;n<4;++n)

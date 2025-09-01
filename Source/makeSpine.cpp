@@ -67,7 +67,7 @@
 /* Read file to see how many points there are */
 void makeTrackSpine(std::string const sourceFolder, std::string const destinationFolder, Handle(Geom_BSplineCurve)& C) {
     std::ifstream trackFile;
-    trackFile.open(sourceFolder +"/track.txt");
+    trackFile.open(sourceFolder +"/Inputs/track.txt");
     int nPoints = 0;
     double sx,x,y,z;
     while (trackFile >> sx >> x >> y >> z)
@@ -77,7 +77,7 @@ void makeTrackSpine(std::string const sourceFolder, std::string const destinatio
     /* load arcLengths & points */
     std::vector<double> arcLength(nPoints);
     std::vector<gp_Pnt> points(nPoints);
-    trackFile.open(sourceFolder +"/track.txt");
+    trackFile.open(sourceFolder +"/Inputs/track.txt");
     
     for (int n=0; n < nPoints; ++n) {
         trackFile >> sx >> x >> y >> z;

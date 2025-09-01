@@ -222,7 +222,7 @@ void makeTrackBSpline(std::string const sourceFolder, std::string const destinat
     
     /* Load profiles */
     std::vector<profileData> profiles;
-    loadProfileData(sourceFolder +"/profiles.txt", profiles);
+    loadProfileData(sourceFolder +"/Results/profiles.txt", profiles);
     const int nProfiles = int(profiles.size());
     const int nCrossPts = 100;
     

@@ -40,7 +40,7 @@ void makeStraightTransitionProfile(std::string const filename, std::string const
 void makeCurveTransitionProfile(std::string const filename, std::string const Dir, double A, double B, double HZ, double R1, double KH, double BW, double R2, double BH, double B1, double Rr, double CE);
 void makeCurveProfile(std::string const filename, std::string const Dir, double A, double B, double HZ, double WZ, double KH, double BW, double R2, double BH, double B1, double Rr, double CE);
 void convertProfiles2BRep(std::string const sourceFolder);
-void step2BRep(std::string const filename);
+void step2BRep(std::string const inputfile, std::string const outputfile);
 void wireToPoints(TopoDS_Wire aWire, int nPts, TColgp_Array1OfPnt& profilePoints);
 
 /* Routines to calculate trajectory down track */

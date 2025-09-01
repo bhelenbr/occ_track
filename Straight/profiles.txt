@@ -1,3 +1,0 @@
-Profiles/straight.brep 0.0 0
-Profiles/straight.brep 50.0 0
-Profiles/straight.brep 100.0 0

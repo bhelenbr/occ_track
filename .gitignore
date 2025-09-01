@@ -1,0 +1,13 @@
+xcuserdata/
+*.xccheckout
+*.bak
+*.xcworkspacedata
+.DS_Store
+_*
+IDEWorkspaceChecks.plist
+build/
+xcschemes/
+**/.DS_Store
+**/*Baseline*
+**/*Results*
+unity*

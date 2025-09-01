@@ -56,6 +56,8 @@
 #include <sstream>
 #include <map>
 // #include <assert>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 #include "occ_track.h"
 
@@ -65,6 +67,9 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
     std::ifstream input;
     std::string line;
     std::string word;
+    
+    std::filesystem::create_directory(destinationFolder +"/Results");
+    std::filesystem::create_directory(destinationFolder +"/Results/Profiles");
     
     input.open(sourceFile);
     
@@ -79,7 +84,7 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
     
     std::ofstream of;
     of.open(destinationFolder +"/Results/dims.txt");
-    
+
     /* Input line and make profile*/
     std::vector<profileData> profiles;
     profileData myProfile;
@@ -110,7 +115,7 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
         /* Decide what kind of profile it is */
         std::ostringstream nstr;
         nstr << Sx << '_' << Type << '_' << Dir;
-        myProfile.filename = "Profiles/" +nstr.str() +".brep";
+        myProfile.filename = "Results/Profiles/" +nstr.str() +".brep";
         myProfile.sx = Sx;
         myProfile.BRK = BRK;
         std::string filename = destinationFolder +"/" +myProfile.filename;
@@ -157,7 +162,7 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
     }
     of.close();
     
-    of.open(destinationFolder +"/profiles.txt");
+    of.open(destinationFolder +"/Results/profiles.txt");
     /* Output profile file*/
     for (int i=0; i < rows; ++i) {
         of << profiles[i].filename << ' ' << profiles[i].sx << ' ' << profiles[i].BRK << std::endl;
@@ -633,16 +638,14 @@ void makeCurveTransitionProfile(std::string const filename, std::string const Di
     BRepTools::Write(Comp,filename.c_str());
 }
 
-void step2BRep(std::string const filename) {
-    
-    std::string outfile = filename.substr(0,filename.rfind(".")) +".brep";
-    
+void step2BRep(std::string const inputfile, std::string const outputfile) {
+
     /* Load in the step file */
     STEPControl_Reader reader;
-    IFSelect_ReturnStatus stat = reader.ReadFile(filename.c_str());
-    if (!stat) {
+    IFSelect_ReturnStatus stat = reader.ReadFile(inputfile.c_str());
+    if (stat != IFSelect_RetDone) {
         std::cout << "There was a problem " << stat << std::endl;
-        std::cout << filename << std::endl;
+        std::cout << inputfile << std::endl;
         exit(1);
     }
     // ItemsByEntity - CountByItem - ListByItem -
@@ -670,22 +673,48 @@ void step2BRep(std::string const filename) {
             builder.MakeCompound(Comp);
             builder.Add(Comp,shape);
             builder.Add(Comp,V);
-            BRepTools::Write(Comp,outfile.c_str());
+            BRepTools::Write(Comp,outputfile.c_str());
         }
         else {
-            BRepTools::Write(shape,outfile.c_str());
+            BRepTools::Write(shape,outputfile.c_str());
         }
+    }
+}
+
+void findAndReplaceAll(std::string& str, const std::string& from, const std::string& to) {
+    if (from.empty())
+        return; // avoid infinite loop
+
+    size_t startPos = 0;
+    while ((startPos = str.find(from, startPos)) != std::string::npos) {
+        str.replace(startPos, from.length(), to);
+        startPos += to.length(); // advance to avoid replacing inside the new text
     }
 }
 
 void convertProfiles2BRep(std::string const sourceFolder) {
     /* Load profiles */
     std::vector<profileData> profiles;
-    loadProfileData(sourceFolder +"/profiles.txt", profiles);
+    loadProfileData(sourceFolder +"/Inputs/profiles.txt", profiles);
     const int nProfiles = int(profiles.size());
     
+    std::filesystem::create_directory(sourceFolder +"/Results");
+    std::filesystem::create_directory(sourceFolder +"/Results/Profiles");
+    
     for(int row=0;row<nProfiles;++row) {
-        step2BRep(sourceFolder +"/" +profiles[row].filename);
+        
+        std::string outputfile = sourceFolder +"/" +profiles[row].filename;
+        fs::path po(outputfile);
+        std::string dir = po.parent_path().string();  // "Results/Profiles/C01"
+        std::filesystem::create_directory(dir);
+        
+        std::string inputfile = outputfile;
+        findAndReplaceAll(inputfile, "Results","Inputs");
+        findAndReplaceAll(inputfile, ".brep",".stp");
+
+        
+        step2BRep(inputfile,outputfile);
+        
     }
 }
 

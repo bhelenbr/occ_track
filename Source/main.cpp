@@ -7,6 +7,8 @@
 
 #include "occ_track.h"
 #include <unistd.h>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 int main(int argc, char **argv) {
     
@@ -15,14 +17,12 @@ int main(int argc, char **argv) {
     
     location myLocation;
     myLocation = StraightTrack;
+    myLocation = ParkCityNoEntries;
+    myLocation = ParkCity;
     myLocation = LakePlacid;
     myLocation = Sochi;
-    myLocation = ParkCity;
-    myLocation = ParkCityNoEntries;
-
+    
     operation myOp;
-    myOp = createProfiles;
-    myOp = convertProfiles;
     myOp = loft;
     myOp = BSpline;
 
@@ -42,18 +42,23 @@ int main(int argc, char **argv) {
             offset = -0.03;
             scale = 0.001;
             Folder = "Straight";
+            makeProfiles(Folder +"/Inputs/profiledata.csv",Folder);
             break;
         }
         case(LakePlacid): {
             offset = -0.25/(4.26-2.85)*60.0/100.0;  // Taken from graphical measurements from curve 1.  Includes ice thickness
             scale = 0.01;
             Folder = "TrackData_LKP";
+            convertProfiles2BRep(Folder);
+            fs::copy_file(Folder + "/Inputs/profiles.txt", Folder + "/Results/profiles.txt", fs::copy_options::overwrite_existing);
             break;
         }
         case(Sochi): {
             offset = -0.03;  // Taken from graphical measurements from curve 1.  Includes ice thickness
             scale = 0.001;
             Folder = "TrackData_Sochi";
+            convertProfiles2BRep(Folder);
+            fs::copy_file(Folder + "/Inputs/profiles.txt", Folder + "/Results/profiles.txt", fs::copy_options::overwrite_existing);
             break;
         }
         case(ParkCity): {
@@ -61,6 +66,7 @@ int main(int argc, char **argv) {
             offset = -1.5*2.54/100;  // From Jon Owen
             scale = 0.001;
             Folder = "TrackData_ParkCity";
+            makeProfiles(Folder +"/Inputs/profiledata.csv",Folder);
             break;
         }
         case(ParkCityNoEntries): {
@@ -68,6 +74,7 @@ int main(int argc, char **argv) {
             offset = -1.5*2.54/100;  // From Jon Owen
             scale = 0.001;
             Folder = "TrackData_ParkCity_noentries";
+            makeProfiles(Folder +"/Inputs/profiledata.csv",Folder);
             break;
         }
     }
@@ -82,13 +89,6 @@ int main(int argc, char **argv) {
             makeTrackBSpline(Folder, Folder +"/Results",scale);
             offsetSurface(Folder +"/Results/theTrack.brep",Folder +"/Results/withIce", offset);
             break;
-        }
-        case(convertProfiles): {
-            convertProfiles2BRep(Folder);
-            break;
-        }
-        case(createProfiles): {
-            makeProfiles(Folder +"/profiledata.csv",Folder);
         }
         default:
             std::cout << "Don't know how to do that" << std::endl;
