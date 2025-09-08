@@ -125,7 +125,11 @@ void timeIntegrate(std::string destinationFolder, Handle(Geom_BSplineSurface con
 		
 		gp_Vec physVel = coU*y[2] +coV*y[3];
 		
-		path_file << time << ' ' << loc.X() << ' ' << loc.Y() << ' ' << loc.Z() << ' ' << normal.X() << ' ' << normal.Y() << ' ' << normal.Z() << ' ' << physVel.X() << ' ' << physVel.Y() << ' ' << physVel.Z() << std::endl;
+#ifdef UNITY
+        path_file << time << ' ' << loc.X() << ' ' << loc.Z() << ' ' << -loc.Y() << ' ' << normal.X() << ' ' << normal.Z() << ' ' << -normal.Y() << ' ' << physVel.X() << ' ' << physVel.Z() << ' ' << -physVel.Y() << std::endl;
+#else
+        path_file << time << ' ' << loc.X() << ' ' << loc.Y() << ' ' << loc.Z() << ' ' << normal.X() << ' ' << normal.Y() << ' ' << normal.Z() << ' ' << physVel.X() << ' ' << physVel.Y() << ' ' << physVel.Z() << std::endl;
+#endif
 	}
 	path_file.close();
 }

@@ -60,7 +60,6 @@
 
 #include "occ_track.h"
 //#define TEST_PROFILES
-//#define UNITY
 
 void loadProfileData(std::string const filename, std::vector<profileData>& profiles) {
     profileData myProfile;
@@ -359,7 +358,12 @@ void outputBSplineSurface(const std::string filename, int nPtsU, int nPtsV, Hand
             Standard_Real V = V1+dv*j;
             gp_Pnt P;
             C->D0 (U, V, P);
+#ifdef UNITY
+            track_test << P.X() << ' ' << P.Z() << ' ' << -P.Y() << std::endl;
+#else
             track_test << P.X() << ' ' << P.Y() << ' ' << P.Z() << std::endl;
+#endif
+            
         }
     }
     track_test.close();

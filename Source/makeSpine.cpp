@@ -127,7 +127,7 @@ void outputBSplineCurve(const std::string destinationFolder, int nPts, Handle(co
         gp_Vec T, d2T;
         C->D2(sx, P, T, d2T);
 #ifdef UNITY
-        track_test << sx << ' ' << P.X() << ' ' << P.Z() << ' ' << -P.Y() << ' ' << T.X() << ' ' << T.Z() << ' ' << -T.Y() << ' ' << d2T.X() << ' ' << d2T.Z() << ' ' <<  -d2T.Y() <<<< std::endl;
+        track_test << sx << ' ' << P.X() << ' ' << P.Z() << ' ' << -P.Y() << ' ' << T.X() << ' ' << T.Z() << ' ' << -T.Y() << ' ' << d2T.X() << ' ' << d2T.Z() << ' ' <<  -d2T.Y() << std::endl;
 #else
         track_test << sx << ' ' << P.X() << ' ' << P.Y() << ' ' << P.Z() << ' ' << T.X() << ' ' << T.Y() << ' ' <<  T.Z() << ' ' << d2T.X() << ' ' << d2T.Y() << ' ' <<  d2T.Z() << std::endl;
 #endif

@@ -12,16 +12,18 @@ namespace fs = std::filesystem;
 
 int main(int argc, char **argv) {
     
-    enum location {StraightTrack,LakePlacid,Sochi,ParkCity,ParkCityNoEntries};
+    enum location {StraightTrack,LakePlacid,Sochi,ParkCity,ParkCityNoEntries,ParkCityLugeStart};
     enum operation {loft,BSpline,convertProfiles,createProfiles};
     
     location myLocation;
     myLocation = StraightTrack;
-    myLocation = ParkCityNoEntries;
-    myLocation = ParkCity;
     myLocation = LakePlacid;
     myLocation = Sochi;
-    
+    myLocation = ParkCity;
+    myLocation = ParkCityNoEntries;
+    myLocation = ParkCityLugeStart;
+
+
     operation myOp;
     myOp = loft;
     myOp = BSpline;
@@ -74,6 +76,14 @@ int main(int argc, char **argv) {
             offset = -1.5*2.54/100;  // From Jon Owen
             scale = 0.001;
             Folder = "TrackData_ParkCity_noentries";
+            makeProfiles(Folder +"/Inputs/profiledata.csv",Folder);
+            break;
+        }
+        case(ParkCityLugeStart): {
+            /* The file profiledata_luge.csv is the men's luge start I think not used currently */
+            offset = -1.5*2.54/100;  // From Jon Owen
+            scale = 0.001;
+            Folder = "TrackData_ParkCity_lugestart";
             makeProfiles(Folder +"/Inputs/profiledata.csv",Folder);
             break;
         }

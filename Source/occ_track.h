@@ -16,6 +16,8 @@
 
 #include <iostream>
 
+#define UNITY
+
 /* Routine to make spline of track spine & output*/
 void makeTrackSpine(std::string const sourceFolder, std::string const destinationFolder, Handle(Geom_BSplineCurve)& C);
 void makeSpine(const std::vector<double>& arcLength, const std::vector<gp_Pnt>& points, Handle(Geom_BSplineCurve)& C);
