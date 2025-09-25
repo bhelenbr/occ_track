@@ -52,7 +52,11 @@ void timeDeriv(std::array<double,4>& y, std::array<double,4>& dydt, Handle(Geom_
     // Calculate normal force
     double trackForce;
     gp_Vec accelCurv = (D2U*dUdt*dUdt +2*D2UV*dUdt*dVdt +D2V*dVdt*dVdt);
+#ifdef UNITY
     trackForce = accelCurv*normal  +g*normal.Y();
+#else
+    trackForce = accelCurv*normal  +g*normal.Z();
+#endif
     
     // Calculate tangent forces
     // these act in a direction opposite to the velocity
@@ -62,7 +66,11 @@ void timeDeriv(std::array<double,4>& y, std::array<double,4>& dydt, Handle(Geom_
     
     gp_Vec drag = -rho_CdA_2m*physVel*speed;
     gp_Vec friction = -trackForce*mu*physVel/speed;
+#ifdef UNITY
     gp_Vec tangentForces = drag +friction -g*gp_Vec(0,1,0);
+#else
+    gp_Vec tangentForces = drag +friction -g*gp_Vec(0,0,1);
+#endif
     
     double d2Udt2 = (tangentForces -accelCurv)*conV;
     double d2Vdt2 = (tangentForces -accelCurv)*conU;
