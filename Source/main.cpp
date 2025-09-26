@@ -20,8 +20,8 @@ int main(int argc, char **argv) {
     myLocation = LakePlacid;
     myLocation = Sochi;
     myLocation = ParkCity;
-    myLocation = ParkCityNoEntries;
     myLocation = ParkCityLugeStart;
+    myLocation = ParkCityNoEntries;
 
 
     operation myOp;
