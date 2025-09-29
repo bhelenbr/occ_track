@@ -6,6 +6,7 @@
 //
 
 #include "occ_track.h"
+#include "ExportSTL.hpp"
 #include <unistd.h>
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -103,6 +104,7 @@ int main(int argc, char **argv) {
         default:
             std::cout << "Don't know how to do that" << std::endl;
     }
-    
+    ExportBREPFileToSTL(brepTrack,   Folder + "/Results/theTrack.stl", 0.05, 0.35, false);
+    ExportBREPFileToSTL(brepWithIce, Folder + "/Results/withIce.stl",  0.05, 0.35, false);
     return 0;
 }
