@@ -117,5 +117,14 @@ int main(int argc, char **argv) {
 
     ExportBREPFileToSTL(brepTrack,   Folder + "/Results/theTrack.stl", 0.05, 0.35, false);
     ExportBREPFileToSTL(brepWithIce, Folder + "/Results/withIce.stl",  0.05, 0.35, false);
+    
+    /*
+    I built the track - with UNITY off in xcode proj
+    exported from blender with Z-up & Y-forward.
+    imported in UNITY
+    & there we have the track with first turn towards left
+    */
+    
+    
     return 0;
 }
