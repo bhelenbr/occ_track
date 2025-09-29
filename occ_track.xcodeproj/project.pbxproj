@@ -34,6 +34,7 @@
 		E6B3E4812BD9F3100060A707 /* makeSpine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = makeSpine.cpp; sourceTree = "<group>"; };
 		E6B3E4822BD9F3100060A707 /* timeDeriv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timeDeriv.cpp; sourceTree = "<group>"; };
 		E6F841792BDB3B3500EF1A7E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		E6F9327B2E8B127C00C20986 /* ExportSTL.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExportSTL.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				E6B3E4802BD9F3100060A707 /* occ_track.h */,
+				E6F9327B2E8B127C00C20986 /* ExportSTL.hpp */,
 				E6F841792BDB3B3500EF1A7E /* main.cpp */,
 				E6B3E4812BD9F3100060A707 /* makeSpine.cpp */,
 				E636B9DE2BE6FE7E002C1F22 /* makeSurface.cpp */,
