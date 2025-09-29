@@ -104,6 +104,17 @@ int main(int argc, char **argv) {
         default:
             std::cout << "Don't know how to do that" << std::endl;
     }
+    
+    std::string brepTrack   = Folder + "/Results/theTrack.brep";
+    std::string brepWithIce = Folder + "/Results/withIce.brep";
+
+    // if withIce is written into a subfolder, find it
+    if (!fs::exists(brepWithIce) && fs::exists(Folder + "/Results/withIce"))
+    {
+        for (auto& p : fs::directory_iterator(Folder + "/Results/withIce"))
+            if (p.path().extension() == ".brep") { brepWithIce = p.path().string(); break; }
+    }
+
     ExportBREPFileToSTL(brepTrack,   Folder + "/Results/theTrack.stl", 0.05, 0.35, false);
     ExportBREPFileToSTL(brepWithIce, Folder + "/Results/withIce.stl",  0.05, 0.35, false);
     return 0;
