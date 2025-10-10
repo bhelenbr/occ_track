@@ -61,7 +61,7 @@ namespace fs = std::filesystem;
 
 #include "occ_track.h"
 
-//#define VERBOSE
+#define VERBOSE
 
 void makeProfiles(std::string const sourceFile, std::string const destinationFolder) {
     std::ifstream input;
@@ -96,6 +96,10 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
     double Sx,Az,A,B,AT,BT,H1,MY,MN,R1,INCL,HZ,WZ,H2,R2,KH,UEB,B1,AK1,BW1,AK3,HW2,BHS,BW,BGES,CE,DFA,R1x,R1y,R2x,R2y,Offset,WR2;
     int rows = 0;
     int prevProfileType = 0, profileType;
+#ifdef VERBOSE
+           std::cout << "Sx Type Dir A B HZ WZ KH BW R2 BH B1 R1 RR CE" << std::endl;
+#endif
+    
     while (std::getline(input, line)) {
         std::istringstream dstream(line);
         std::getline(dstream,Type,',');
@@ -105,11 +109,16 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
         dstream >> BW >> com >> BGES >> com >> CE >> com >> DFA >> com >> R1x >> com >> R1y >> com >> R2x >> com >> R2y >> com >> Offset >> com >> WR2 >> com >> BRK;
         double BH = AK3+HW2;
         
+        int dir = 0;
         if (Dir == "L") {
+            dir = -1;
             of << Sx << ' ' << -BW-CE  << ' ' << B-CE << ' ' << BH << ' ' << KH << ' ' << BRK << std::endl;
         }
         else {
             of << Sx << ' ' << -B+CE << ' ' << BW+CE << ' ' << KH << ' ' << BH << ' ' << BRK << std::endl;
+            if (Dir == "R") {
+                dir = 1;
+            }
         }
 
         /* Decide what kind of profile it is */
@@ -123,7 +132,7 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
         if (abs(AT) < 1.0e-6) {
             /* If AT,BT = 0.0 then it is a straight section */
 #ifdef VERBOSE
-            std::cout << "Straight " << myProfile.filename << ' ' << B << ' ' << BW << ' ' << KH << ' ' << BH << ' ' << R1 << ' ' << RR << std::endl;
+            std::cout << Sx << " 0 0 " << -1 << ' ' << B << " -1 -1 " << KH << ' ' << BW << " -1 " << BH << " -1 " << R1 << ' ' << RR << ' ' << CE << std::endl;
 #endif
             makeStraightProfile(filename, Dir, B, BW, KH, BH, R1, RR, CE);
             profileType = 0;
@@ -131,7 +140,7 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
         else if (R1 < 1.0e-6) {
             /* If R1 = 0.0 then it is a curve */
 #ifdef VERBOSE
-            std::cout << "Curve " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << HZ << ' ' << WZ << ' ' << KH << ' ' << BW << ' ' << R2 << ' ' << BH << ' ' << B1 << ' ' << RR << std::endl;
+           std::cout << Sx << " 3 " << dir << ' ' << A << ' ' << B << ' ' << HZ << ' ' << WZ << ' ' << KH << ' ' << BW << ' ' << R2 << ' ' << BH << ' ' << B1 << ' ' << -1 << ' ' << RR << ' ' << CE << std::endl;
 #endif
             makeCurveProfile(filename, Dir, A, B, HZ, WZ, KH, BW, R2, BH, B1, RR, CE);
             profileType = 1;
@@ -139,7 +148,7 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
         else if (BW1 < 1.0e-6) {
             /* then if BW1 = 0 it is a straight transiton */
 #ifdef VERBOSE
-            std::cout << "Straight Transition " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << R1 << ' ' << KH << ' ' << BW << ' ' << RR << ' ' << BH << std::endl;
+            std::cout << Sx << " 1 " << dir << ' ' << A << ' ' << B << ' ' << HZ << ' ' << -1 << ' ' << KH << ' ' << BW << ' ' << -1 << ' ' << BH << ' ' << -1 << ' ' << R1 << ' ' << RR << ' ' << CE << std::endl;
 #endif
             makeStraightTransitionProfile(filename, Dir, A, B, R1, KH, HZ, R2, BW, RR, BH, CE);
             profileType = 2;
@@ -147,7 +156,7 @@ void makeProfiles(std::string const sourceFile, std::string const destinationFol
         else {
             /* else it is a curve transition */
 #ifdef VERBOSE
-            std::cout << "Curve Transition " << myProfile.filename << ' ' << Dir << ' ' << A << ' ' << B << ' ' << HZ << ' ' << R1 << ' ' << KH << ' ' << BW << ' ' << R2 << ' ' << BH << ' ' << B1 << ' ' << RR << std::endl;
+            std::cout << Sx << " 2 " << dir << ' ' << A << ' ' << B << ' ' << HZ << ' ' << -1 << ' ' << KH << ' ' << BW << ' ' << R2 << ' ' << BH << ' ' << B1 << ' ' << R1 << ' ' << RR << ' ' << CE << std::endl;
 #endif
             makeCurveTransitionProfile(filename, Dir, A, B, HZ, R1, KH, BW, R2, BH, B1, RR, CE);
             profileType = 3;

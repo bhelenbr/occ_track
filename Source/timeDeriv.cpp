@@ -11,7 +11,7 @@
 #include <gp_Pnt.hxx>
 #include <gp_Vec.hxx>
 
-void timeDeriv(std::array<double,4>& y, std::array<double,4>& dydt, Handle(Geom_BSplineSurface) trackSurface) {
+void timeDeriv(std::array<double,4>& y, std::array<double,4>& dydt, Handle(Geom_Surface) trackSurface) {
     
     //  Calculate time derivative at a point.
     //  y(0) = u coordinate
@@ -83,7 +83,7 @@ void timeDeriv(std::array<double,4>& y, std::array<double,4>& dydt, Handle(Geom_
 }
 	
 
-void timeIntegrate(std::string destinationFolder, Handle(Geom_BSplineSurface const) const trackSurface) {
+void timeIntegrate(std::string filename, Handle(Geom_Surface const) const trackSurface) {
 	
 	
 	Standard_Real U1,U2,V1,V2;  // Get bounds of track
@@ -102,7 +102,7 @@ void timeIntegrate(std::string destinationFolder, Handle(Geom_BSplineSurface con
 	double time = 0.0;
 	
 	std::ofstream path_file;
-	path_file.open(destinationFolder +"/path.txt");
+	path_file.open(filename);
 	
 	while (y[0] <= U2 && y[2] > 0.0) { // && y(1) >= V1 && y(1) <= V2) {
 		y0 = y;

@@ -120,7 +120,7 @@ void outputBSplineCurve(const std::string destinationFolder, int nPts, Handle(co
     Standard_Real ds = (sEnd-sBgn)/(nPts-1);
     
     std::ofstream track_test;
-    track_test.open(destinationFolder +"/track_spine_pts.txt");
+    track_test.open(destinationFolder +"/spine_spline_pts.txt");
     for (int i=0;i<nPts;++i) {
         double sx = sBgn +ds*i;
         gp_Pnt P;

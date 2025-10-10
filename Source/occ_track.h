@@ -33,7 +33,7 @@ void loadProfileData(std::string const filename, std::vector<profileData>& profi
 void makeTrackLoft(std::string const sourceFolder, std::string const destinationFolder, double scale);
 void makeTrackBSpline(std::string const sourceFolder, std::string const destinationFolder, double scale);
 void offsetSurface(std::string input, std::string output, double distance);
-void outputBSplineSurface(const std::string filename, int nPtsU, int nPtsV, Handle(Geom_BSplineSurface) const C);
+void outputSurface(const std::string filename, Handle(Geom_Surface) const C);
 
 /* Routines to make cross-sections profiles and manipulate*/
 void makeProfiles(std::string const sourceFile, std::string const destinationFolder);
@@ -46,9 +46,12 @@ void step2BRep(std::string const inputfile, std::string const outputfile);
 void wireToPoints(TopoDS_Wire aWire, int nPts, TColgp_Array1OfPnt& profilePoints);
 
 /* Routines to calculate trajectory down track */
-void timeIntegrate(std::string destinationFolder, Handle(Geom_BSplineSurface const) const trackSurface);
-void timeDeriv(std::vector<double> y, std::vector<double> dydt, Handle(Geom_BSplineSurface) trackSurface);
+void timeIntegrate(std::string destinationFolder, Handle(Geom_Surface const) const trackSurface);
+void timeDeriv(std::vector<double> y, std::vector<double> dydt, Handle(Geom_Surface) trackSurface);
 
-
+struct Vec3 {
+    double x, y, z;
+};
+void writeSTL(const std::vector<std::vector<Vec3>>& grid, const std::string& filename);
 
 #endif /* defined(__occ_track__timeDeriv__) */

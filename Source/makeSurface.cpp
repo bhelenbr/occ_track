@@ -246,6 +246,7 @@ void makeTrackBSpline(std::string const sourceFolder, std::string const destinat
         TopoDS_Wire aWire;
         transformProfile(C, sx, scale, filename, aWire);
 #ifdef TEST_PROFILES
+        std::cout << destinationFolder +"/" +profiles[row].filename << std::endl;
         BRepTools::Write(aWire,(destinationFolder +"/" +profiles[row].filename).c_str());
 #endif
         
@@ -285,11 +286,10 @@ void makeTrackBSpline(std::string const sourceFolder, std::string const destinat
     }
     TopoDS_Face F = FaceMaker.Face();
     
-    /* Write brep file */
+    /* Write brep file & stl file */
     BRepTools::Write(F,(destinationFolder +"/theTrack.brep").c_str());
-    outputBSplineSurface(destinationFolder +"/track_surface_pts.txt", nProfiles, nCrossPts, trackSurface);
-    timeIntegrate(destinationFolder,trackSurface);
-
+    
+    outputSurface(destinationFolder +"/theTrack", trackSurface);
 }
 
 
@@ -333,31 +333,36 @@ void offsetSurface(std::string input, std::string output, double offset) {
     /* Write brep file */
     std::string brepname = output +".brep";
     BRepTools::Write(F,brepname.c_str());
-  
-	/* Write surface file */
-	std::ofstream mySurfaceFile;
-	mySurfaceFile.open(output +".txt");
-	GeomTools::Write(trackSurface,mySurfaceFile);
-	mySurfaceFile.close();
+    outputSurface(output, trackSurface);
 }
 
-void outputBSplineSurface(const std::string filename, int nPtsU, int nPtsV, Handle(Geom_BSplineSurface) const C) {
+void outputSurface(const std::string filename, Handle(Geom_Surface) const C) {
     Standard_Real U1,U2,V1,V2;
     C->Bounds (U1, U2, V1, V2);
     
-    Standard_Real du = (U2-U1)/nPtsU;
-    Standard_Real dv = (V2-V1)/nPtsV;
+    /* Output every 0.5m */
+    const int nPtsU = (U2-U1)*2.0 +1;
+    /* Output with 100 divisions across width */
+    const int nPtsV = 101;
+    
+    Standard_Real du = 0.5;
+    Standard_Real dv = (V2-V1)/(nPtsV-1);
     
     /* Test track curve */
     std::ofstream track_test;
-    track_test.open(filename);
+    track_test.open(filename +"_pts.txt");
     track_test << nPtsU << ' ' << nPtsV << std::endl;
+    
+    std::vector<std::vector<Vec3>> grid(nPtsU, std::vector<Vec3>(nPtsV));
+    
     for (int i=0; i<nPtsU; ++i) {
         Standard_Real U = U1+du*i;
         for (int j=0; j<nPtsV; ++j) {
             Standard_Real V = V1+dv*j;
             gp_Pnt P;
             C->D0 (U, V, P);
+            grid[i][j] = {P.X(),P.Y(),P.Z()};
+
 #ifdef UNITY
             track_test << P.X() << ' ' << P.Z() << ' ' << -P.Y() << std::endl;
 #else
@@ -367,5 +372,17 @@ void outputBSplineSurface(const std::string filename, int nPtsU, int nPtsV, Hand
         }
     }
     track_test.close();
+    
+    /* Write STL file */
+    writeSTL(grid,filename +".stl");
+    // ExportBREPFileToSTL(brepTrack,   Folder + "/Results/theTrack.stl", 0.05, 0.35, false);
+    
+    /* Write surface file */
+    std::ofstream mySurfaceFile;
+    mySurfaceFile.open(filename +".txt");
+    GeomTools::Write(C,mySurfaceFile);
+    mySurfaceFile.close();
+    
+    /* Write curve down center of track*/
+    timeIntegrate(filename +"_centerline.txt",C);
 }
-

@@ -36,7 +36,17 @@ int main(int argc, char **argv) {
     /* to update include file list cd /opt/homebrew/include/opencascade and ls */
     /* and library names cd /opt/homebrew/lib and ls libTK* | grep -v 7.9 */
     
-    /* The makeTrack<Loft,BSpline> routines calls makeTrackSpine to load the file <source folder>/track.txt and use it to make the spine of the track using the routine makeSpine.  makeSpineTrack then outputs points on the spine curve to the file "<destination folder>/track_spine_pts.txt" makeTrackXXX then opens the profile brep curves which are at the location specified in the file <source folder>/profiles.txt.  It outputs two files:  <destinationFolder>/theTrack.brep and <destinationFolder>/track_surface_pts.txt.  The routine offset surface loads the track file and then offsets a surface and outputs a brep file "withice.brep" and a surface definition withice.txt".  It finally calls timeIntegrate to calculate a gravity path, but it doesn't let V change do that is kind of funky.  This ouputs a file called <destination folder>/path.txt */
+    /* The makeTrack<Loft,BSpline> routines calls makeTrackSpine to load the file <source folder>/track.txt and use it to make the spine of the track using the routine makeSpine.
+       makeSpineTrack then outputs
+            "<destination folder>/spine_spline_pts.txt": points on the spine curve
+            "<destination folder>/spine_spline.txt": the opencascade spline definition
+       makeTrackXXX then opens the profile brep curves which are at the location specified in the file <source folder>/profiles.txt.  It outputs
+            <destinationFolder>/theTrack.brep: brep file
+            <destinationFolder>/theTrack.txt: opencascade definition of the surface
+            <destinationFolder>/theTrack_pts.txt: Matlab readable grid of surface points
+            <destinationFolder>/theTrack.stl: stl file (structured grid divided into triangles)
+            <destinationFolder>/theTrack_centerline.txt: points along the centerline of the track
+     The routine offset surface then loads the track file and then offsets a surface.  It ouputs the same files as makeTrackXXX */
     
     /* The makeProfile routine reads the input file (typically <Folder>/provile.csv and for every line in that file creates a profile called Profiles/XX.brep where XX is the arc location with an ending describing the type of profile and whether it is left or right. It then outputs a file <Destination Folder>/profiles.txt that contains a list of locations and filenames  */
     
@@ -104,20 +114,7 @@ int main(int argc, char **argv) {
         default:
             std::cout << "Don't know how to do that" << std::endl;
     }
-    
-    std::string brepTrack   = Folder + "/Results/theTrack.brep";
-    std::string brepWithIce = Folder + "/Results/withIce.brep";
 
-    // if withIce is written into a subfolder, find it
-    if (!fs::exists(brepWithIce) && fs::exists(Folder + "/Results/withIce"))
-    {
-        for (auto& p : fs::directory_iterator(Folder + "/Results/withIce"))
-            if (p.path().extension() == ".brep") { brepWithIce = p.path().string(); break; }
-    }
-
-    ExportBREPFileToSTL(brepTrack,   Folder + "/Results/theTrack.stl", 0.05, 0.35, false);
-    ExportBREPFileToSTL(brepWithIce, Folder + "/Results/withIce.stl",  0.05, 0.35, false);
-    
     /*
     I built the track - with UNITY off in xcode proj
     exported from blender with Z-up & Y-forward.

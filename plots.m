@@ -9,11 +9,12 @@ Folder = 'Straight/Results/';
 Folder = 'TrackData_ParkCity/Results/';
 Folder = 'TrackData_ParkCity_noentries/Results/';
 
+
 plot_dims = 0;
-plot_spine = 1;
-plot_path = 1;
+plot_spine = 0;
+plot_path = 0;
 plot_profiles = 0;
-plot_surface = 0;
+plot_surface = 1;
 
 if (plot_dims)
     figure
@@ -34,12 +35,12 @@ if (plot_spine +plot_path +plot_surface)
     f3D = figure;
 end
 
-if (plot_spine) 
+if (plot_spine)
 
 
     % Plot Track Spine
-    track = load([Folder 'track_spine_pts.txt']);
-    
+    track = load([Folder 'spine_spline_pts.txt']);
+
     yaw = 180*atan2(track(:,6),track(:,5))/pi;
     figure
     plot(track(:,1),yaw);
@@ -74,14 +75,14 @@ end
 
 if (plot_path)
     % Plot luge path on track
-    path = load([Folder 'path.txt']);
+    path = load([Folder 'withIce_centerline.txt']);
     figure(f2D)
     plot(path(:,2),path(:,3));
     figure(f3D)
     plot3(path(:,2),path(:,3),path(:,4));
 end
 
-if (plot_profiles) 
+if (plot_profiles)
     % Load profiles
     nfiles = 750;
     for cnt=1:nfiles
@@ -100,9 +101,23 @@ if (plot_profiles)
 end
 
 if (plot_surface)
-    track_surface = importdata([Folder 'track_surface_pts.txt'],' ',1);
+    track_surface = importdata([Folder 'withIce_pts.txt'],' ',1);
     [nUV] = sscanf(track_surface.textdata{1},'%d %d');
     track_grid = reshape(track_surface.data,nUV(2),nUV(1),3);
     figure(f3D)
     surf(track_grid(:,:,1),track_grid(:,:,2),track_grid(:,:,3));
+    view([0,0,1])
+    axis equal
+
+
+    npts = size(track_grid,2);
+    nsects = 10;
+    divs = 1:floor(npts/nsects):npts;
+    for i=1:length(divs)-1
+        figure
+        surf(track_grid(:,divs(i):divs(i+1),1),track_grid(:,divs(i):divs(i+1),2),track_grid(:,divs(i):divs(i+1),3));
+        view([0,0,1])
+        axis equal
+    end
+
 end
