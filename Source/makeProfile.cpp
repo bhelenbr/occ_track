@@ -10,6 +10,7 @@
 #include <gp_Ax1.hxx>
 #include <GeomAPI_Interpolate.hxx>
 #include <GeomAPI_PointsToBSplineSurface.hxx>
+#include <GeomAPI_PointsToBSpline.hxx>
 #include <GeomTools.hxx>
 #include <Geom_Curve.hxx>
 #include <Geom_Surface.hxx>
@@ -47,6 +48,9 @@
 #include <TColgp_HArray2OfPnt.hxx>
 #include <TColStd_HArray1OfReal.hxx>
 #include <TColStd_HArray1OfInteger.hxx>
+#include <TColgp_Array1OfPnt.hxx>
+#include <TColStd_Array1OfReal.hxx>
+#include <TColStd_Array1OfInteger.hxx>
 
 #include <STEPControl_Reader.hxx>
 // #include <BOPTools_DSFiller.hxx>
@@ -54,12 +58,15 @@
 #include <array>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 #include <map>
 // #include <assert>
 #include <filesystem>
 namespace fs = std::filesystem;
 
 #include "occ_track.h"
+
+
 
 #define VERBOSE
 
@@ -804,4 +811,253 @@ void wireToPoints(TopoDS_Wire aWire, int nPts, TColgp_Array1OfPnt& profilePoints
 //    }
 /*    You can use the class BRepAdaptor_CompCurve if the interface of Adaptor3d_Curve is sufficient for you. If you need the real Geom_Curve then you have to approximate CompCurve into bspline using available approximation tool (e.g. AdvApprox_ApproxAFunction, see GeomLib::BuildCurve3d). */
 
+}
+
+
+
+Handle(Geom_BSplineCurve) makeCubicSplineWithSlopes(const gp_Pnt& p0, const gp_Vec& v0, const gp_Pnt& p1, const gp_Vec& v1) {
+    // We’ll approximate a cubic Hermite segment using a 4-point BSpline
+    // Equivalent to a cubic with clamped ends and specified derivatives.
+
+    // Compute chord length between endpoints
+    gp_Vec dxy(p0, p1);
+    double L = dxy.Magnitude();
+
+    // Defensive check
+    if (L < 1e-12) {
+        std::cerr << "Error: endpoints are coincident.\n";
+        return nullptr;
+    }
+
+    // Choose handle length proportional to chord length
+    // For a cubic Bézier with clamped tangents, the typical choice is L/3
+    double handle = L / 3.0;
+    
+    // Create intermediate control points based on the Hermite formulation:
+    // P0 = p0
+    // P1 = p0 + v0 / 3
+    // P2 = p1 - v1 / 3
+    // P3 = p1
+    gp_Pnt P0 = p0;
+    gp_Pnt P1 = gp_Pnt(p0.XYZ() + handle * v0.XYZ()/v0.Magnitude());
+    gp_Pnt P2 = gp_Pnt(p1.XYZ() - handle * v1.XYZ()/v1.Magnitude());
+    gp_Pnt P3 = p1;
+
+    // Define control points
+    TColgp_Array1OfPnt poles(1, 4);
+    poles(1) = P0;
+    poles(2) = P1;
+    poles(3) = P2;
+    poles(4) = P3;
+
+    // Uniform knot vector for a cubic Bézier (two knots with multiplicity 4)
+    TColStd_Array1OfReal knots(1, 2);
+    knots(1) = 0.0;
+    knots(2) = 1.0;
+
+    TColStd_Array1OfInteger mults(1, 2);
+    mults(1) = 4;  // clamped start
+    mults(2) = 4;  // clamped end
+
+    const Standard_Integer degree = 3;
+
+    Handle(Geom_BSplineCurve) spline =
+        new Geom_BSplineCurve(poles, knots, mults, degree);
+
+    return spline;
+}
+
+Handle(Geom_BSplineCurve) makeCubicSpline(const gp_Pnt& p0, const gp_Pnt& p1, const gp_Pnt& p2, const gp_Pnt& p3) {
+    // We’ll approximate a cubic Hermite segment using a 4-point BSpline
+    // Equivalent to a cubic with clamped ends and specified derivatives.
+
+    // Define control points
+    TColgp_Array1OfPnt poles(1, 4);
+    poles(1) = p0;
+    poles(2) = p1;
+    poles(3) = p2;
+    poles(4) = p3;
+
+    // Uniform knot vector for a cubic Bézier (two knots with multiplicity 4)
+    TColStd_Array1OfReal knots(1, 2);
+    knots(1) = 0.0;
+    knots(2) = 1.0;
+
+    TColStd_Array1OfInteger mults(1, 2);
+    mults(1) = 4;  // clamped start
+    mults(2) = 4;  // clamped end
+
+    const Standard_Integer degree = 3;
+
+    Handle(Geom_BSplineCurve) spline =
+        new Geom_BSplineCurve(poles, knots, mults, degree);
+
+    return spline;
+}
+
+void makeProfilesCortina(std::string const sourceFile, std::string const destinationFolder) {
+    
+#ifdef TEST_CORTINA
+    /* Curve 1 Parameters */
+    double Rr = 212.5;
+    double BW = 842+Rr;
+    double BH = 496+Rr;
+    /* % 0,0 is left of arc
+     % 1274.1937,-1433.959 is near bottom
+     a = 1274.1937;
+     b = -1433.959;
+     % xc == sqrt((xc-a)^2 +b^2))
+     % xc^2 = xc^2-2*xc*a +a^2+b^2;
+     xc = (a^2+b^2)/(2*a)
+
+     xy = [0,0; 0,-709.3066; 538.365,-1315.175; 1274.1937,-1433.959; xc,0.0];
+     scatter(xy(:,1),xy(:,2))
+     axis equal */
+    double R1 = 1444;
+    double MY = 1274.1937;
+    double CE = 15535-15129;
+    double UEB = -88.0;
+    double DXDY = -6.0/(836.0-739.0);
+    double KH = MY+836.0;
+    makeCortinaProfile("CortinaTest.brep", "L", DXDY, UEB, MY, R1, KH, BW, BH, Rr, CE);
+    return 0;
+#endif // TEST_CORTINA
+    
+    std::ifstream input;
+    std::string line;
+    std::string word;
+    
+    std::filesystem::create_directory(destinationFolder +"/Results");
+    std::filesystem::create_directory(destinationFolder +"/Results/Profiles");
+    
+    input.open(sourceFile);
+    
+    std::getline(input, line);
+    /* Read headers */
+    std::map<std::string,int> hcols;
+    std::stringstream hstream(line);
+    int cols = 0;
+    while (hstream >> word) {
+        hcols[word] = cols++;
+    }
+    /* Type    Dir    Sx    X1    X2    Y2    X3    Y3    BT    UEB    KH    B1    BH    Rr    CE */
+    
+    /* Input line and make profile*/
+    std::vector<profileData> profiles;
+    profileData myProfile;
+    std::string Type,Dir,num;
+    char com;
+    int prevProfileType = 0, profileType;
+    
+    double Sx, X1, X2, Y2, X3, Y3, BT, UEB, KH, B1, BH, Rr, CE;
+    int rows = 0;
+    while (std::getline(input, line)) {
+        std::istringstream dstream(line);
+        std::getline(dstream,Type,',');
+        std::getline(dstream,Dir,',');
+        dstream >> Sx >> com >> X1 >> com >> X2 >> com >> Y2 >> com >> X3 >> com >> Y3 >> com >> BT >> com >> UEB >> com >> KH >> com >> B1 >> com >> BH >> com >> Rr >> com >> CE;
+        
+        /* Decide what kind of profile it is */
+        std::ostringstream nstr;
+        nstr << Sx << '_' << Type << '_' << Dir;
+        myProfile.filename = "Results/Profiles/" +nstr.str() +".brep";
+        myProfile.sx = Sx;
+        myProfile.BRK = 0;
+        std::string filename = destinationFolder +"/" +myProfile.filename;
+        
+        if (Dir == "T") {
+            double BW = B1+Rr;
+            double B = BT+Rr; /* Going to assume radii are the same rather than using spline definition */
+            makeStraightProfile(filename, Dir, B, BW, KH, BH, Rr, Rr, CE);
+            profileType = 0;
+        }
+        else {
+            makeCortinaProfile(filename, Dir, X1, X2, Y2, X3, Y3, BT, UEB, KH, B1, BH, Rr, CE);
+            profileType = 1;
+        }
+//        if (profileType != prevProfileType) {
+//            myProfile.BRK = 1;
+//        }
+        profiles.push_back(myProfile);
+        prevProfileType = profileType;
+        ++rows;
+    }
+    std::ofstream of;
+    of.open(destinationFolder +"/Results/profiles.txt");
+    /* Output profile file*/
+    for (int i=0; i < rows; ++i) {
+        of << profiles[i].filename << ' ' << profiles[i].sx << ' ' << profiles[i].BRK << std::endl;
+    }
+    of.close();
+}
+
+void makeCortinaProfile(std::string const filename, std::string const Dir, double X1, double X2, double Y2, double X3, double Y3, double BT, double UEB, double KH, double B1, double BH, double Rr, double CE) {
+    const gp_Dir xAxis(1.0,0.0,0.0);
+    const gp_Dir yAxis(0.0,1.0,0.0);
+    const gp_Dir zAxis(0.0,0.0,1.0);
+    const gp_Pnt origin(0.0,0.0,0.0);
+
+    gp_Pnt aPnt, aPnt1, aPnt2;
+    gp_Ax2 anAx2;
+    
+    aPnt1 = gp_Pnt(-X3-UEB-BT,KH,0.0);
+    aPnt2 = gp_Pnt(-X3-BT,Y3,0.0);
+    double theta = atan((X3-X2)/(Y3-Y2));
+    double UEH = KH-Y3;
+    double R2 = abs(0.5*(UEB*UEB+UEH*UEH)/(UEB*cos(theta)+UEH*sin(theta)));
+    aPnt = gp_Pnt(R2*cos(theta) +aPnt2.X(),R2*sin(theta)+aPnt2.Y(),0.0);
+    anAx2 = gp_Ax2(aPnt, zAxis, xAxis);
+    gp_Circ aCirc(anAx2,R2);
+    Handle(Geom_TrimmedCurve) aArcOfCircleR1 = GC_MakeArcOfCircle(aCirc,aPnt1,aPnt2,Standard_True);
+    TopoDS_Edge r1Edge = BRepBuilderAPI_MakeEdge(aArcOfCircleR1);
+    
+    aPnt1 = gp_Pnt(-BT,0.0,0.0);
+    Handle(Geom_BSplineCurve) spline = makeCubicSpline(aPnt2,gp_Pnt(-X2-BT,Y2,0.0),gp_Pnt(-X1-BT,0.0,0.0),aPnt1);
+    TopoDS_Edge splineEdge = BRepBuilderAPI_MakeEdge(spline);
+
+    aPnt2 = gp_Pnt(B1,0.0,0.0);
+    Handle(Geom_TrimmedCurve) aSegment2    = GC_MakeSegment(aPnt1, aPnt2);
+    TopoDS_Edge bEdge = BRepBuilderAPI_MakeEdge(aSegment2);
+    
+    aPnt = gp_Pnt(B1,Rr,0.0);
+    anAx2 = gp_Ax2(aPnt, zAxis, xAxis);
+    aCirc = gp_Circ(anAx2,Rr);
+    Handle(Geom_TrimmedCurve) aArcOfCircle2 = GC_MakeArcOfCircle(aCirc,3.*M_PI/2.,2.*M_PI,true);
+    TopoDS_Edge rrEdge = BRepBuilderAPI_MakeEdge(aArcOfCircle2);
+    
+    double BW = B1+Rr;
+    aPnt1 = gp_Pnt(BW,Rr,0.0);
+    aPnt2 = gp_Pnt(BW,BH,0.0);
+    Handle(Geom_TrimmedCurve) aSegment3    = GC_MakeSegment(aPnt1, aPnt2);
+    TopoDS_Edge rEdge = BRepBuilderAPI_MakeEdge(aSegment3);
+        
+    BRepBuilderAPI_MakeWire mkWire;
+    mkWire.Add(r1Edge);
+    mkWire.Add(splineEdge);
+    mkWire.Add(bEdge);
+    mkWire.Add(rrEdge);
+    mkWire.Add(rEdge);
+    TopoDS_Wire myWireProfile = mkWire.Wire();
+    
+    TopoDS_Wire finalWire;
+    if (Dir == "L") {
+        /* Mirror Edge */
+        gp_Trsf Mirror;
+        anAx2 = gp_Ax2(origin,xAxis,zAxis);
+        Mirror.SetMirror(anAx2);
+        BRepBuilderAPI_Transform myTransform(myWireProfile,Mirror);
+        finalWire = TopoDS::Wire(myTransform.Shape());
+        aPnt = gp_Pnt(CE,0.0,0.0);
+    }
+    else {
+        finalWire = myWireProfile;
+        aPnt = gp_Pnt(-CE,0.0,0.0);
+    }
+    TopoDS_Vertex V = BRepBuilderAPI_MakeVertex(aPnt);
+    BRep_Builder builder;
+    TopoDS_Compound Comp;
+    builder.MakeCompound(Comp);
+    builder.Add(Comp,finalWire);
+    builder.Add(Comp,V);
+    BRepTools::Write(Comp,filename.c_str());
 }

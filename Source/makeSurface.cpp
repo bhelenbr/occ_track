@@ -261,7 +261,7 @@ void makeTrackBSpline(std::string const sourceFolder, std::string const destinat
             unitySucks.SetY(myPnt.Z());
             unitySucks.SetZ(-myPnt.Y());
             myPnt = unitySucks;
-#endif
+#endif // UNITY
             myPoints.SetValue(row+2,col+1,myPnt);
         }
     }
@@ -279,7 +279,19 @@ void makeTrackBSpline(std::string const sourceFolder, std::string const destinat
     UMults.SetValue(1,4);
     UMults.SetValue(nProfiles,3);
     
-    Handle(Geom_BSplineSurface) trackSurface = new Geom_BSplineSurface(myPoints, UKnots, VKnots, UMults, VMults, 3, 3);
+    Handle(Geom_BSplineSurface) trackSurface;
+    try {
+         trackSurface = new Geom_BSplineSurface(myPoints, UKnots, VKnots, UMults, VMults, 3, 3);
+    }
+    catch (Standard_Failure& e) {
+        std::cerr << "OpenCascade error: " << e.GetMessageString() << std::endl;
+    }
+    catch (std::exception& e) {
+        std::cerr << "Standard library error: " << e.what() << std::endl;
+    }
+    catch (...) {
+        std::cerr << "Unknown error while creating BSpline surface." << std::endl;
+    }
     BRepBuilderAPI_MakeFace FaceMaker(trackSurface, 1.0e-7);
     if (!FaceMaker.IsDone()) {
         std::cout << "FaceMaker Error " << FaceMaker.Error() << std::endl;
@@ -333,7 +345,7 @@ void offsetSurface(std::string input, std::string output, double offset) {
     /* Write brep file */
     std::string brepname = output +".brep";
     BRepTools::Write(F,brepname.c_str());
-    outputSurface(output, trackSurface);
+    outputSurface(output, offsetSurface);
 }
 
 void outputSurface(const std::string filename, Handle(Geom_Surface) const C) {

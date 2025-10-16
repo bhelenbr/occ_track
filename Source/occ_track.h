@@ -37,10 +37,13 @@ void outputSurface(const std::string filename, Handle(Geom_Surface) const C);
 
 /* Routines to make cross-sections profiles and manipulate*/
 void makeProfiles(std::string const sourceFile, std::string const destinationFolder);
+void makeProfilesCortina(std::string const sourceFile, std::string const destinationFolder);
 void makeStraightProfile(std::string const filename, std::string const Dir, double WL, double WR, double HL, double HR, double RL, double RR, double CE);
 void makeStraightTransitionProfile(std::string const filename, std::string const Dir, double A, double B, double R1, double KH, double HZ, double R2, double BW, double Rr, double BH, double CE);
 void makeCurveTransitionProfile(std::string const filename, std::string const Dir, double A, double B, double HZ, double R1, double KH, double BW, double R2, double BH, double B1, double Rr, double CE);
 void makeCurveProfile(std::string const filename, std::string const Dir, double A, double B, double HZ, double WZ, double KH, double BW, double R2, double BH, double B1, double Rr, double CE);
+void makeCortinaProfile(std::string const filename, std::string const Dir, double X1, double X2, double Y2, double X3, double Y3, double BT, double EB, double KH, double B1, double BH, double Rr, double CE);
+
 void convertProfiles2BRep(std::string const sourceFolder);
 void step2BRep(std::string const inputfile, std::string const outputfile);
 void wireToPoints(TopoDS_Wire aWire, int nPts, TColgp_Array1OfPnt& profilePoints);
